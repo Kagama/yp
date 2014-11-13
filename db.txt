@@ -1,0 +1,694 @@
+-- phpMyAdmin SQL Dump
+-- version 3.5.3
+-- http://www.phpmyadmin.net
+--
+-- Хост: 127.0.0.1:3306
+-- Время создания: Сен 29 2014 г., 18:12
+-- Версия сервера: 5.5.28-log
+-- Версия PHP: 5.4.8
+
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+--
+-- База данных: `yellow_pages`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `backend_session`
+--
+
+CREATE TABLE IF NOT EXISTS `backend_session` (
+  `id` char(32) NOT NULL,
+  `expire` int(11) DEFAULT NULL,
+  `data` blob,
+  PRIMARY KEY (`id`),
+  KEY `expire` (`expire`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `backend_session`
+--
+
+INSERT INTO `backend_session` (`id`, `expire`, `data`) VALUES
+('ahe1h5b821lraviis8cer8jrj6', 1410817574, 0x5f5f666c6173687c613a303a7b7d5f5f72657475726e55726c7c733a343a222f63702f223b5f5f69647c693a313b);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `frontend_session`
+--
+
+CREATE TABLE IF NOT EXISTS `frontend_session` (
+  `id` char(32) NOT NULL,
+  `expire` int(11) DEFAULT NULL,
+  `data` blob,
+  PRIMARY KEY (`id`),
+  KEY `expire` (`expire`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `frontend_session`
+--
+
+INSERT INTO `frontend_session` (`id`, `expire`, `data`) VALUES
+('ahe1h5b821lraviis8cer8jrj6', 1411050551, 0x5f5f666c6173687c613a303a7b7d626f6f6b6d61726b737c733a363a22613a303a7b7d223b),
+('btobqabe6r751klc013kankv61', 1410790280, 0x5f5f666c6173687c613a303a7b7d626f6f6b6d61726b737c733a34323a22613a333a7b693a303b733a313a2235223b693a313b733a313a2236223b693a323b733a313a2237223b7d223b),
+('bvr1a888pnah5dd9j4ti7222d5', 1410790020, 0x5f5f666c6173687c613a303a7b7d626f6f6b6d61726b737c733a34323a22613a333a7b693a303b733a313a2235223b693a313b733a313a2235223b693a323b733a313a2235223b7d223b),
+('gqa23fpbejv5uucmngk731rc87', 1410815352, 0x5f5f666c6173687c613a303a7b7d626f6f6b6d61726b737c733a363a22613a303a7b7d223b),
+('upc2di2o2ecagcqdae9u2o0n63', 1412001269, 0x5f5f666c6173687c613a303a7b7d);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `ka_admin_user`
+--
+
+CREATE TABLE IF NOT EXISTS `ka_admin_user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(254) NOT NULL COMMENT 'Логин',
+  `password` varchar(254) NOT NULL COMMENT 'Пароль',
+  `salt` varchar(32) NOT NULL COMMENT 'Соль',
+  `role_id` int(11) NOT NULL COMMENT 'Роль',
+  `status` tinyint(1) NOT NULL COMMENT 'Статус',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Таблица администраторов' AUTO_INCREMENT=2 ;
+
+--
+-- Дамп данных таблицы `ka_admin_user`
+--
+
+INSERT INTO `ka_admin_user` (`id`, `username`, `password`, `salt`, `role_id`, `status`) VALUES
+(1, 'admin', '57C+DpoBubjIMmAcBiwUXjzPUzy0OrcF4iStotcF1MhWAYEaZTkLed4=', '4bd0524453ea2abc00629dc15073dc06', 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `ka_admin_user_info`
+--
+
+CREATE TABLE IF NOT EXISTS `ka_admin_user_info` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `admin_id` int(11) NOT NULL COMMENT 'Администратор',
+  `email` varchar(254) NOT NULL COMMENT 'Электронная почта',
+  `phone` varchar(254) NOT NULL COMMENT 'Телефон',
+  `avatar` varchar(512) NOT NULL COMMENT 'Аватар',
+  `first_name` varchar(254) NOT NULL COMMENT 'Имя',
+  `last_name` varchar(254) NOT NULL COMMENT 'Фамилия',
+  `patronymic` varchar(254) NOT NULL COMMENT 'Отчество',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Таблица "Информация о Администраторе"' AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `ka_admin_user_role`
+--
+
+CREATE TABLE IF NOT EXISTS `ka_admin_user_role` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(32) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Таблица "Роль Администратора"' AUTO_INCREMENT=5 ;
+
+--
+-- Дамп данных таблицы `ka_admin_user_role`
+--
+
+INSERT INTO `ka_admin_user_role` (`id`, `name`) VALUES
+(1, 'Супер администратор'),
+(2, 'Модератор'),
+(3, 'Пользователь'),
+(4, 'Администратор');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `ka_country`
+--
+
+CREATE TABLE IF NOT EXISTS `ka_country` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(64) NOT NULL COMMENT 'Название',
+  `alt_name` varchar(64) NOT NULL COMMENT 'Alt название',
+  `seo_title` varchar(254) NOT NULL,
+  `seo_keywords` varchar(254) NOT NULL,
+  `seo_description` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Список стран' AUTO_INCREMENT=2 ;
+
+--
+-- Дамп данных таблицы `ka_country`
+--
+
+INSERT INTO `ka_country` (`id`, `name`, `alt_name`, `seo_title`, `seo_keywords`, `seo_description`) VALUES
+(1, 'Россия', 'Russia', '', '', '');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `ka_locality`
+--
+
+CREATE TABLE IF NOT EXISTS `ka_locality` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(254) NOT NULL COMMENT 'Название',
+  `alt_name` varchar(254) NOT NULL COMMENT 'Alt название',
+  `region_id` int(11) NOT NULL COMMENT 'Регион',
+  `seo_title` varchar(254) NOT NULL,
+  `seo_keywords` varchar(254) NOT NULL,
+  `seo_description` text NOT NULL,
+  `locality_type` int(11) NOT NULL COMMENT 'Тип населнного пункта',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Список населенных пунктов' AUTO_INCREMENT=5 ;
+
+--
+-- Дамп данных таблицы `ka_locality`
+--
+
+INSERT INTO `ka_locality` (`id`, `name`, `alt_name`, `region_id`, `seo_title`, `seo_keywords`, `seo_description`, `locality_type`) VALUES
+(1, 'Махачкала', 'mahachkala', 1, 'Махачкала - заголовок', 'Махачкала - ключевые слова', '', 1),
+(2, 'Каспийск', 'kaspiysk', 1, 'Каспийск - заголовок', 'Каспийск - ключевые слова', '', 1),
+(3, 'Кизилюрт', 'kizilurt', 1, 'Кизилюрт - Заголовок', 'Кизилюрт - ключевые слова', '', 1),
+(4, 'Дербент', 'derbent', 1, 'Дербент - заголовок', 'Дербент - описание', '', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `ka_locality_type`
+--
+
+CREATE TABLE IF NOT EXISTS `ka_locality_type` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `type_name` varchar(16) NOT NULL,
+  `alt_type_name` varchar(16) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Тип населенного пункта' AUTO_INCREMENT=4 ;
+
+--
+-- Дамп данных таблицы `ka_locality_type`
+--
+
+INSERT INTO `ka_locality_type` (`id`, `type_name`, `alt_type_name`) VALUES
+(1, 'г.', ''),
+(2, 'ПГТ', ''),
+(3, 'с.', '');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `ka_lookup`
+--
+
+CREATE TABLE IF NOT EXISTS `ka_lookup` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(254) NOT NULL,
+  `code` int(11) NOT NULL,
+  `type` varchar(254) NOT NULL,
+  `position` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Вспомогательная таблица' AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `ka_organization`
+--
+
+CREATE TABLE IF NOT EXISTS `ka_organization` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `simple_name` varchar(254) NOT NULL COMMENT 'Короткое название',
+  `name` varchar(512) NOT NULL COMMENT 'Полное название',
+  `org_type` int(11) NOT NULL COMMENT 'Тип организации',
+  `logo_img` varchar(512) NOT NULL COMMENT 'Фото лого',
+  `description` text NOT NULL COMMENT 'Описание',
+  `locality` int(11) NOT NULL COMMENT 'Раселенный пункт',
+  `address` varchar(254) NOT NULL COMMENT 'Адрес',
+  `registration_date` int(11) NOT NULL COMMENT 'Дата регистрации',
+  `update_date` int(11) NOT NULL COMMENT 'Дата обновления',
+  `category` int(11) NOT NULL COMMENT 'Категория',
+  `user` int(11) NOT NULL COMMENT 'Пользователь',
+  `tags` varchar(1024) NOT NULL COMMENT 'Тэги',
+  `longitude` double NOT NULL COMMENT 'Долгота',
+  `latitude` double NOT NULL COMMENT 'Широта',
+  `seo_title` varchar(254) NOT NULL COMMENT 'SEO Заголовок',
+  `seo_keywords` varchar(254) NOT NULL COMMENT 'SEO Ключевые слова',
+  `seo_description` text NOT NULL COMMENT 'SEO Описание',
+  `locality_id` int(11) NOT NULL COMMENT 'Населенный пукнит',
+  `approve` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Статус ободрения',
+  `top_manager` varchar(512) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Таблица "Организаций"' AUTO_INCREMENT=8 ;
+
+--
+-- Дамп данных таблицы `ka_organization`
+--
+
+INSERT INTO `ka_organization` (`id`, `simple_name`, `name`, `org_type`, `logo_img`, `description`, `locality`, `address`, `registration_date`, `update_date`, `category`, `user`, `tags`, `longitude`, `latitude`, `seo_title`, `seo_keywords`, `seo_description`, `locality_id`, `approve`, `top_manager`) VALUES
+(5, '', 'Кагама', 1, '', 'sdf asdf asdfasf asdf asf as fasdf asdf asdf sdf asdf asdfasf asdf asf as fasdf asdf asdf sdf asdf asdfasf asdf asf as fasdf asdf asdf sdf asdf asdfasf asdf asf as fasdf asdf asdf sdf asdf asdfasf asdf asf as fasdf asdf asdf sdf asdf asdfasf asdf asf as fasdf asdf asdf sdf asdf asdfasf asdf asf as fasdf asdf asdf sdf asdf asdfasf asdf asf as fasdf asdf asdf sdf asdf asdfasf asd', 0, 'Россия, Республика Дагестан, Махачкала, улица Осипенко, 53', 1401555719, 0, 26, 0, 'кофе,ролы,салат,шашлык,басейн,пиво', 47.497543867674935, 42.98023861166623, '', '', '', 2, 1, 'Абдулаев Рашид Магомедович'),
+(6, '', 'Мвидео', 0, '', 'ява фыва фыва фыва фыва фыва фыва фыв аява фыва фыва фыва фыва фыва фыва фыв аява фыва фыва фыва фыва фыва фыва фыв аява фыва фыва фыва фыва фыва фыва фыв аява фыва фыва фыва фыва фыва фыва фыв аява фыва фыва фыва фыва фыва фыва фыв аява фыва фыва фыва фыва фыва фыва фыв аява фыва фыва фыва фыва фыва фыва фыв аява фыва фыва фыва фыва фыва фыва фыв аява фыва фыва фыва фыва фыва ', 0, 'Россия, Республика Дагестан, Махачкала, улица Лермонтова, 24', 1401555811, 0, 23, 0, '', 47.564154478853, 42.95446876820237, '', '', '', 2, 1, ''),
+(7, '', 'Пиццерия Torino Торино', 0, '', 'Пиццерия «Торино» отличается просторным уютным залом, с европейским дизайном, а слабый неяркий свет в помещении располагает к тишине и спокойствию.', 0, 'Россия, Республика Дагестан, Махачкала, улица Ярагского, 90', 1405870201, 0, 47, 0, 'пицца,салат,соки,напитки,кофе,бильярд,шашлык,  ролы ', 48.284044350882745, 42.05792520269296, '', '', '', 2, 1, '');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `ka_org_category`
+--
+
+CREATE TABLE IF NOT EXISTS `ka_org_category` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(254) NOT NULL COMMENT 'Название',
+  `alt_name` varchar(254) NOT NULL COMMENT 'Альтернативное название',
+  `owner_id` int(11) DEFAULT NULL COMMENT 'Владелец',
+  `position` int(11) DEFAULT '0' COMMENT 'Позиция',
+  `level` int(11) NOT NULL DEFAULT '1' COMMENT 'Уроверь',
+  `logo` varchar(254) NOT NULL COMMENT 'Лого',
+  `seo_title` varchar(254) NOT NULL,
+  `seo_keywords` varchar(254) NOT NULL,
+  `seo_description` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Таблица "Категория организаций"' AUTO_INCREMENT=57 ;
+
+--
+-- Дамп данных таблицы `ka_org_category`
+--
+
+INSERT INTO `ka_org_category` (`id`, `name`, `alt_name`, `owner_id`, `position`, `level`, `logo`, `seo_title`, `seo_keywords`, `seo_description`) VALUES
+(1, 'Автомобили', 'avtomobili', NULL, 1, 1, '', 'Автомобили', 'Автомобили', ''),
+(2, 'Отдых и развлечения', 'otdykh_i_razvlechenija', NULL, 2, 1, '', 'Отдых и развлечения', 'Отдых и развлечения', ''),
+(3, 'Аудио-, видео-, фото-, бытовая техника', 'audio__video__foto__bytovaja_tekhnika', NULL, 3, 1, '', '', '', ''),
+(4, 'Безопасность, охрана, силовые структуры', 'bezopasnost_okhrana_silovye_struktury', NULL, 4, 1, '', 'Безопасность, охрана, силовые структуры', 'Безопасность, охрана, силовые структуры', ''),
+(5, 'Политические партии. Общественные движения. Социальная сфера', 'politicheskie_partii_obshhestvennye_dvizhenija_socialnaja_sfera', NULL, 5, 1, '', 'Политические партии. Общественные движения. Социальная сфера', 'Политические партии. Общественные движения. Социальная сфера', ''),
+(6, 'Безопасность, охрана, силовые структуры', 'bezopasnost_okhrana_silovye_struktury', NULL, 6, 1, '', 'Безопасность, охрана, силовые структуры', 'Безопасность, охрана, силовые структуры', ''),
+(7, 'Промышленность, производство', 'promyshlennost_proizvodstvo', NULL, 7, 1, '', 'Промышленность, производство', 'Промышленность, производство', ''),
+(8, 'Бизнес, офис, финансы', 'biznes_ofis_finansy', NULL, 8, 1, '', 'Бизнес, офис, финансы', 'Бизнес, офис, финансы', ''),
+(9, 'Реклама, полиграфия, СМИ', 'reklama_poligrafija_smi', NULL, 9, 1, '', 'Реклама, полиграфия, СМИ', 'Реклама, полиграфия, СМИ', ''),
+(10, 'Бытовые услуги. Коммунальное хозяйство', 'bytovye_uslugi_kommunalnoe_khozjajjstvo', NULL, 10, 1, '', 'Бытовые услуги. Коммунальное хозяйство', 'Бытовые услуги. Коммунальное хозяйство', ''),
+(11, 'Спорт. Туризм. Активный отдых', 'sport_turizm_aktivnyjj_otdykh', NULL, 11, 1, '', 'Спорт. Туризм. Активный отдых', 'Спорт. Туризм. Активный отдых', ''),
+(12, 'Строительство и недвижимость', 'stroitelstvo_i_nedvizhimost', NULL, 12, 1, '', 'Строительство и недвижимость', 'Строительство и недвижимость', ''),
+(13, 'Государство, право, органы власти', 'gosudarstvo_pravo_organy_vlasti', NULL, 13, 1, '', 'Государство, право, органы власти', 'Государство, право, органы власти', ''),
+(14, 'Телекоммуникации и связь', 'telekommunikacii_i_svjaz', NULL, 14, 1, '', 'Телекоммуникации и связь', 'Телекоммуникации и связь', ''),
+(15, 'Компьютеры и Интернет', 'kompjutery_i_internet', NULL, 15, 1, '', 'Компьютеры и Интернет', 'Компьютеры и Интернет', ''),
+(16, 'Культура, искусство', 'kultura_iskusstvo', NULL, 16, 1, '', 'Культура, искусство', 'Культура, искусство', ''),
+(17, 'Торговля', 'torgovlja', NULL, 17, 1, '', 'Торговля', 'Торговля', ''),
+(18, 'Транспорт и перевозки', 'transport_i_perevozki', NULL, 18, 1, '', 'Транспорт и перевозки', 'Транспорт и перевозки', ''),
+(19, 'Медицина, красота, здоровье', 'medicina_krasota_zdorove', NULL, 19, 1, '', 'Медицина, красота, здоровье', 'Медицина, красота, здоровье', ''),
+(20, 'Экология. Защита окружающей среды', 'ehkologija_zashhita_okruzhajushhejj_sredy', NULL, 20, 1, '', 'Экология. Защита окружающей среды', 'Экология. Защита окружающей среды', ''),
+(21, 'Наука и образование', 'nauka_i_obrazovanie', NULL, 21, 1, '', 'Наука и образование', 'Наука и образование', ''),
+(22, 'Аквапарки', 'akvaparki', 2, 1, 2, '', 'Аквапарки', 'Аквапарки', ''),
+(23, 'Парки отдыха, сады', 'parki_otdykha_sady', 2, 2, 2, '', 'Парки отдыха, сады', 'Парки отдыха, сады', 'Парки отдыха, сады'),
+(24, 'Базы отдыха, пансионаты', 'bazy_otdykha_pansionaty', 2, 3, 2, '', 'Базы отдыха, пансионаты', 'Базы отдыха, пансионаты', ''),
+(25, 'Бани и сауны', 'bani_i_sauny', 2, 4, 2, '', 'Бани и сауны', 'Бани и сауны', ''),
+(26, 'Бары', 'bary', 2, 5, 2, '', 'Бары', 'Бары', ''),
+(27, 'Рестораны', 'restorany', 2, 6, 2, '', 'Рестораны', 'Рестораны', ''),
+(28, 'Пивные бары и рестораны', 'pivnye_bary_i_restorany', 2, 7, 2, '', 'Пивные бары и рестораны', 'Пивные бары и рестораны', 'Пивные бары и рестораны'),
+(29, 'Бильярдные залы', 'biljardnye_zaly', 2, 8, 2, '', 'Бильярдные залы', 'Бильярдные залы', 'Бильярдные залы'),
+(30, 'Кальянные', 'kaljannye', 2, 9, 2, '', 'Кальянные', 'Кальянные', ''),
+(31, 'Боулинг-центры', 'bouling_centry', 2, 10, 2, '', 'Боулинг-центры', 'Боулинг-центры', 'Боулинг-центры'),
+(32, 'Букмекерские конторы', 'bukmekerskie_kontory', 2, 11, 2, '', 'Букмекерские конторы', 'Букмекерские конторы', 'Букмекерские конторы'),
+(33, 'Видеопрокат - CD, DVD', 'videoprokat___CD_DVD', 2, 12, 2, '', 'Видеопрокат - CD, DVD', 'Видеопрокат - CD, DVD', 'Видеопрокат - CD, DVD'),
+(34, 'Детские праздники - организация, проведение', 'detskie_prazdniki___organizacija_provedenie', 2, 13, 2, '', 'Детские праздники - организация, проведение', 'Детские праздники - организация, проведение', 'Детские праздники - организация, проведение'),
+(35, 'Зоны отдыха', 'zony_otdykha', 2, 14, 2, '', 'Зоны отдыха', 'Зоны отдыха', 'Зоны отдыха'),
+(36, 'Картинг', 'karting', 2, 15, 2, '', 'Картинг', 'Картинг', 'Картинг'),
+(37, 'Кафе', 'kafe', 2, 17, 2, '', 'Кафе', 'Кафе', 'Кафе'),
+(38, 'Кинотеатры, киноцентры', 'kinoteatry_kinocentry', 2, 20, 2, '', 'Кинотеатры, киноцентры', 'Кинотеатры, киноцентры', 'Кинотеатры, киноцентры'),
+(39, 'Компьютерные игры и клубы', 'kompjuternye_igry_i_kluby', 2, 21, 2, '', 'Компьютерные игры и клубы', 'Компьютерные игры и клубы', 'Компьютерные игры и клубы'),
+(40, 'Корпоративные мероприятия - организация и обслуживание', 'korporativnye_meroprijatija___organizacija_i_obsluzhivanie', 2, 21, 2, '', 'Корпоративные мероприятия - организация и обслуживание', 'Корпоративные мероприятия - организация и обслуживание', 'Корпоративные мероприятия - организация и обслуживание'),
+(41, 'Кофейни, чайные, кондитерские', 'kofejjni_chajjnye_konditerskie', 2, 22, 2, '', 'Кофейни, чайные, кондитерские', 'Кофейни, чайные, кондитерские', 'Кофейни, чайные, кондитерские'),
+(42, 'Культурно-развлекательные центры', 'kulturno_razvlekatelnye_centry', 2, 23, 2, '', 'Культурно-развлекательные центры', 'Культурно-развлекательные центры', 'Культурно-развлекательные центры'),
+(43, 'Лотереи - организации', 'loterei___organizacii', 2, 24, 2, '', 'Лотереи - организации', 'Лотереи - организации', 'Лотереи - организации'),
+(44, 'Ночные клубы', 'nochnye_kluby', 2, 25, 2, '', 'Ночные клубы', 'Ночные клубы', 'Ночные клубы'),
+(45, 'Пейнтбол', 'pejjntbol', 2, 26, 2, '', 'Пейнтбол', 'Пейнтбол', 'Пейнтбол'),
+(46, 'Пиротехника - продажа', 'pirotekhnika___prodazha', 2, 27, 2, '', 'Пиротехника - продажа', 'Пиротехника - продажа', 'Пиротехника - продажа'),
+(47, 'Пиццерии', 'piccerii', 2, 28, 2, '', 'Пиццерии', 'Пиццерии', 'Пиццерии'),
+(48, 'Свадьбы - организация и обслуживание', 'svadby___organizacija_i_obsluzhivanie', 2, 29, 2, '', 'Свадьбы - организация и обслуживание', 'Свадьбы - организация и обслуживание', 'Свадьбы - организация и обслуживание'),
+(49, 'Стрелковые клубы, тиры', 'strelkovye_kluby_tiry', 2, 30, 2, '', 'Стрелковые клубы, тиры', 'Стрелковые клубы, тиры', 'Стрелковые клубы, тиры'),
+(50, 'Театры', 'teatry', 2, 31, 2, '', 'Театры', 'Театры', 'Театры'),
+(51, 'Филармонии', 'filarmonii', 2, 32, 2, '', 'Филармонии', 'Филармонии', 'Филармонии'),
+(52, 'Музеии', 'muzeii', 2, 33, 2, '', 'Музеии', 'Музеии', 'Музеии'),
+(53, 'Экскурсионное обслуживание', 'ehkskursionnoe_obsluzhivanie', 2, 34, 2, '', 'Экскурсионное обслуживание', 'Экскурсионное обслуживание', 'Экскурсионное обслуживание'),
+(54, 'Автобазы, автопарки', 'avtobazy_avtoparki', 1, 0, 2, '', 'Автобазы, автопарки', 'Автобазы, автопарки', 'Автобазы, автопарки'),
+(55, 'Автобусы - продажа, лизинг', 'avtobusy___prodazha_lizing', 1, 1, 2, '', 'Автобусы - продажа, лизинг', 'Автобусы - продажа, лизинг', 'Автобусы - продажа, лизинг'),
+(56, 'Автомобили, автобусы, грузовики - запчасти', 'avtomobili_avtobusy_gruzoviki___zapchasti', 1, 2, 2, '', 'Автомобили, автобусы, грузовики - запчасти', 'Автомобили, автобусы, грузовики - запчасти', 'Автомобили, автобусы, грузовики - запчасти');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `ka_org_contact_group`
+--
+
+CREATE TABLE IF NOT EXISTS `ka_org_contact_group` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(254) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Группа контактов' AUTO_INCREMENT=6 ;
+
+--
+-- Дамп данных таблицы `ka_org_contact_group`
+--
+
+INSERT INTO `ka_org_contact_group` (`id`, `name`) VALUES
+(1, 'Раб. тел.'),
+(2, 'Моб. тел.'),
+(3, 'Элек. почта'),
+(4, 'Факс'),
+(5, 'Сайт');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `ka_org_contact_info`
+--
+
+CREATE TABLE IF NOT EXISTS `ka_org_contact_info` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `group_id` int(11) NOT NULL,
+  `value` varchar(254) NOT NULL,
+  `organization_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Контакты ' AUTO_INCREMENT=18 ;
+
+--
+-- Дамп данных таблицы `ka_org_contact_info`
+--
+
+INSERT INTO `ka_org_contact_info` (`id`, `group_id`, `value`, `organization_id`) VALUES
+(13, 1, '+79640195020', 5),
+(14, 3, 'office@kagama.ru', 5),
+(15, 5, 'http://www.kagama.ru', 5),
+(16, 1, '111111111111', 6),
+(17, 1, '777-200, 62-01-01, 8-988-291-40-07', 7);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `ka_org_type`
+--
+
+CREATE TABLE IF NOT EXISTS `ka_org_type` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(254) NOT NULL COMMENT 'Название',
+  `alt_name` varchar(254) NOT NULL COMMENT 'Альтернативное название',
+  `seo_title` varchar(254) NOT NULL,
+  `seo_keywords` varchar(254) NOT NULL,
+  `seo_description` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Тип организации' AUTO_INCREMENT=22 ;
+
+--
+-- Дамп данных таблицы `ka_org_type`
+--
+
+INSERT INTO `ka_org_type` (`id`, `name`, `alt_name`, `seo_title`, `seo_keywords`, `seo_description`) VALUES
+(1, 'ООО', '', '', '', ''),
+(2, 'ГДОУ', '', '', '', ''),
+(3, 'ГОУ', '', '', '', ''),
+(4, 'ГП', '', '', '', ''),
+(5, 'ГУ', '', '', '', ''),
+(6, 'ГУП', '', '', '', ''),
+(7, 'ЗАО', '', '', '', ''),
+(8, 'ИП', '', '', '', ''),
+(9, 'МП', '', '', '', ''),
+(10, 'МУ', '', '', '', ''),
+(11, 'НекоммОрг', '', '', '', ''),
+(12, 'НекоммПарт', '', '', '', ''),
+(13, 'НОУ', '', '', '', ''),
+(14, 'ОАО', '', '', '', ''),
+(15, 'ОбщОрг', '', '', '', ''),
+(16, 'ПИФ', '', '', '', ''),
+(17, 'Подразделение', '', '', '', ''),
+(18, 'Представительство', '', '', '', ''),
+(19, 'РелОрг', '', '', '', ''),
+(20, 'Фонд', '', '', '', ''),
+(21, 'ФПГ', '', '', '', '');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `ka_org_work_days_and_time`
+--
+
+CREATE TABLE IF NOT EXISTS `ka_org_work_days_and_time` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `organization` int(11) NOT NULL COMMENT 'организация',
+  `work_day_from` varchar(64) NOT NULL COMMENT 'Рабочий день ',
+  `work_day_to` varchar(64) NOT NULL,
+  `work_hours_from` varchar(32) NOT NULL COMMENT 'Рабочие часы с',
+  `work_hours_to` varchar(32) NOT NULL COMMENT 'Рабочие часы по',
+  `break_time_from` varchar(32) DEFAULT NULL COMMENT 'Перерыв с ',
+  `break_time_to` varchar(32) DEFAULT NULL COMMENT 'Перерыв до',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Рабочая неделя' AUTO_INCREMENT=13 ;
+
+--
+-- Дамп данных таблицы `ka_org_work_days_and_time`
+--
+
+INSERT INTO `ka_org_work_days_and_time` (`id`, `organization`, `work_day_from`, `work_day_to`, `work_hours_from`, `work_hours_to`, `break_time_from`, `break_time_to`) VALUES
+(9, 5, '0', '2', '10:00', '19:00', NULL, NULL),
+(10, 5, '3', '6', '12:00', '16:00', NULL, NULL),
+(11, 6, 'null', 'null', '10:00', '19:00', NULL, NULL),
+(12, 7, 'null', 'null', '10:00', '19:00', NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `ka_region`
+--
+
+CREATE TABLE IF NOT EXISTS `ka_region` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(254) NOT NULL COMMENT 'Название',
+  `alt_name` varchar(254) NOT NULL COMMENT 'Alt название',
+  `seo_title` varchar(254) NOT NULL,
+  `seo_keywords` varchar(254) NOT NULL,
+  `seo_description` text NOT NULL,
+  `country_id` int(11) NOT NULL COMMENT 'Страна',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Список регионов' AUTO_INCREMENT=4 ;
+
+--
+-- Дамп данных таблицы `ka_region`
+--
+
+INSERT INTO `ka_region` (`id`, `name`, `alt_name`, `seo_title`, `seo_keywords`, `seo_description`, `country_id`) VALUES
+(1, 'Дагестан', 'Daghestan', 'Дагестан SEO Заголовок', 'Дагестан SEO Ключевые слова', 'Дагестан SEO Описание', 1),
+(2, 'Махачкала', 'makhachkala', 'Махачкала', 'Махачкала', 'Махачкала', 1),
+(3, 'Каспийск', 'kaspiysk', 'Каспийск', 'Каспийск', 'Каспийск', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `ka_tags`
+--
+
+CREATE TABLE IF NOT EXISTS `ka_tags` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(254) NOT NULL,
+  `alt_name` varchar(254) NOT NULL,
+  `frequency` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
+
+--
+-- Дамп данных таблицы `ka_tags`
+--
+
+INSERT INTO `ka_tags` (`id`, `name`, `alt_name`, `frequency`) VALUES
+(1, 'пицца', 'pizza', 4),
+(2, 'кофе', 'cofe', 4),
+(3, 'салат', 'salat', 5),
+(4, 'басейн', 'basein', 1),
+(5, 'ролы', 'roli', 4),
+(6, 'бильярд', 'billiards', 3),
+(7, 'пиво', 'pivo', 1),
+(8, 'шашлык', 'shashlik', 4),
+(9, 'ЖК телевизор ', 'jk_televizor', 0),
+(10, 'LCD телевизор', 'lcd_televizor', 0),
+(11, 'соки', 'soki', 3),
+(12, 'напитки', 'napitki', 3);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `ka_user`
+--
+
+CREATE TABLE IF NOT EXISTS `ka_user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `phone` varchar(254) NOT NULL COMMENT 'Телефон',
+  `email` varchar(254) NOT NULL COMMENT 'Эл. почта',
+  `username` varchar(254) NOT NULL COMMENT 'Логин',
+  `password` varchar(254) NOT NULL COMMENT 'Пароль',
+  `salt` varchar(32) NOT NULL COMMENT 'Соль',
+  `registration_date` int(11) NOT NULL COMMENT 'Дата регистрации',
+  `update_date` int(11) DEFAULT NULL COMMENT 'Дата обновления',
+  `active_status` int(11) NOT NULL COMMENT 'Статус Активности',
+  `active_code` int(11) NOT NULL COMMENT 'Код активации',
+  `role` int(11) DEFAULT NULL COMMENT 'Роль пользователя',
+  `first_name` varchar(254) NOT NULL COMMENT 'Имя',
+  `last_name` varchar(254) NOT NULL COMMENT 'Фамилие',
+  `patronymic` varchar(254) NOT NULL COMMENT 'Отчество',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Таблица пользователей' AUTO_INCREMENT=3 ;
+
+--
+-- Дамп данных таблицы `ka_user`
+--
+
+INSERT INTO `ka_user` (`id`, `phone`, `email`, `username`, `password`, `salt`, `registration_date`, `update_date`, `active_status`, `active_code`, `role`, `first_name`, `last_name`, `patronymic`) VALUES
+(2, '+711111', 'poramidol@mail.ru', 'poramidol', 'f5c39d8f1552c79fa371a0a5961fd63d', '12123123', 11111, NULL, 1, 121212, NULL, '', '', '');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `ka_user_role`
+--
+
+CREATE TABLE IF NOT EXISTS `ka_user_role` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(32) NOT NULL,
+  `alt_name` varchar(32) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Таблица "Роль пользователя"' AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `t_key_value_organization`
+--
+
+CREATE TABLE IF NOT EXISTS `t_key_value_organization` (
+  `id` int(11) NOT NULL,
+  `value` longtext NOT NULL,
+  KEY `key` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Таблица KeyValue для ka_organization';
+
+--
+-- Дамп данных таблицы `t_key_value_organization`
+--
+
+INSERT INTO `t_key_value_organization` (`id`, `value`) VALUES
+(5, '5 |#|  |#| Кагама |#| 1 |#|  |#| sdf asdf asdfasf asdf asf as fasdf asdf asdf sdf asdf asdfasf asdf asf as fasdf asdf asdf sdf asdf asdfasf asdf asf as fasdf asdf asdf sdf asdf asdfasf asdf asf as fasdf asdf asdf sdf asdf asdfasf asdf asf as fasdf asdf asdf sdf asdf asdfasf asdf asf as fasdf asdf asdf sdf asdf asdfasf asdf asf as fasdf asdf asdf sdf asdf asdfasf asdf asf as fasdf asdf asdf sdf asdf asdfasf asd |#| 0 |#| Россия, Республика Дагестан, Махачкала, улица Осипенко, 53 |#| 1401555719 |#| 0 |#| Бары |#| 0 |#| кофе,ролы,салат,шашлык,басейн,пиво |#| 0.9999999999 |#| 0.9999999999 |#|  |#|  |#|  |#| Махачкала |#| 0 |#| Абдулаев Рашид Магомедович'),
+(6, '6 |#|  |#| Мвидео |#| 0 |#|  |#| ява фыва фыва фыва фыва фыва фыва фыв аява фыва фыва фыва фыва фыва фыва фыв аява фыва фыва фыва фыва фыва фыва фыв аява фыва фыва фыва фыва фыва фыва фыв аява фыва фыва фыва фыва фыва фыва фыв аява фыва фыва фыва фыва фыва фыва фыв аява фыва фыва фыва фыва фыва фыва фыв аява фыва фыва фыва фыва фыва фыва фыв аява фыва фыва фыва фыва фыва фыва фыв аява фыва фыва фыва фыва фыва  |#| 0 |#| Россия, Республика Дагестан, Махачкала, улица Лермонтова, 24 |#| 1401555811 |#| 0 |#| Парки отдыха, сады |#| 0 |#|  |#| 0.9999999999 |#| 0.9999999999 |#|  |#|  |#|  |#| Махачкала |#| 0 |#| '),
+(7, '7 |#|  |#| Пиццерия Torino Торино |#| 0 |#|  |#| Пиццерия «Торино» отличается просторным уютным залом, с европейским дизайном, а слабый неяркий свет в помещении располагает к тишине и спокойствию. |#| 0 |#| Россия, Республика Дагестан, Махачкала, улица Ярагского, 90 |#| 1405870201 |#| 0 |#| Пиццерии |#| 0 |#| пицца,салат,соки,напитки,кофе,бильярд,шашлык,  ролы  |#| 0.9999999999 |#| 0.9999999999 |#|  |#|  |#|  |#| Махачкала |#| 0 |#| ');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `t_kg_admin_users`
+--
+
+CREATE TABLE IF NOT EXISTS `t_kg_admin_users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(512) NOT NULL COMMENT 'User Login',
+  `auth_key` varchar(32) NOT NULL COMMENT 'auth key ',
+  `password` varchar(255) NOT NULL COMMENT 'Пароль',
+  `password_hash` varchar(255) NOT NULL,
+  `password_reset_token` varchar(255) DEFAULT NULL COMMENT 'password reset token',
+  `created_at` int(11) NOT NULL,
+  `updated_at` int(11) NOT NULL,
+  `roleId` int(11) NOT NULL COMMENT 'User Role',
+  `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'User Active Status',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Пользователи администраторы' AUTO_INCREMENT=2 ;
+
+--
+-- Дамп данных таблицы `t_kg_admin_users`
+--
+
+INSERT INTO `t_kg_admin_users` (`id`, `username`, `auth_key`, `password`, `password_hash`, `password_reset_token`, `created_at`, `updated_at`, `roleId`, `status`) VALUES
+(1, 'rashid', 'Vlc-i7i-u2oia12ddfwTUk5HC4bYdCqQ', 'rashid', '$2y$13$uH4lOFO7qeeqHPkLauvKw.f5SFiCrUrTo8grDwWIBadZ4GypzpzkS', NULL, 1400084695, 1400084695, 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `t_kg_admin_user_info`
+--
+
+CREATE TABLE IF NOT EXISTS `t_kg_admin_user_info` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `admin_user_id` int(11) NOT NULL COMMENT 'Id Администратора',
+  `email` varchar(512) NOT NULL COMMENT 'Email Администратора',
+  `phone` varchar(512) NOT NULL COMMENT 'Номер телефонма Администратора',
+  `avatar` varchar(512) NOT NULL COMMENT 'Аватар Администратора',
+  `first_name` varchar(512) NOT NULL COMMENT 'Имя Администратора',
+  `last_name` varchar(512) NOT NULL COMMENT 'Фамилия Администратора',
+  `patronymic` varchar(512) NOT NULL COMMENT 'Отчество Администратора',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Информация администратора' AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `t_kg_admin_user_role`
+--
+
+CREATE TABLE IF NOT EXISTS `t_kg_admin_user_role` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(512) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Adminstrator Role' AUTO_INCREMENT=5 ;
+
+--
+-- Дамп данных таблицы `t_kg_admin_user_role`
+--
+
+INSERT INTO `t_kg_admin_user_role` (`id`, `name`) VALUES
+(1, 'Администратор'),
+(2, 'Модератор'),
+(3, 'Пользователь'),
+(4, 'Супер администратор');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `t_kg_news`
+--
+
+CREATE TABLE IF NOT EXISTS `t_kg_news` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(512) NOT NULL COMMENT 'Заголовок',
+  `alt_title` varchar(512) NOT NULL COMMENT 'Альт заголовок',
+  `small_text` text NOT NULL COMMENT 'краткое описание',
+  `text` longtext NOT NULL COMMENT 'плоный текст',
+  `date` int(11) NOT NULL COMMENT 'дата',
+  `seo_title` varchar(512) NOT NULL,
+  `seo_keywords` varchar(512) NOT NULL,
+  `seo_description` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Таблица новостей' AUTO_INCREMENT=5 ;
+
+--
+-- Дамп данных таблицы `t_kg_news`
+--
+
+INSERT INTO `t_kg_news` (`id`, `title`, `alt_title`, `small_text`, `text`, `date`, `seo_title`, `seo_keywords`, `seo_description`) VALUES
+(2, 'Hello world!', 'Hello_world', '', 'Всем привет, если даст Б-г и наш программист, то запустимся на след.неделе!:)', 1368734400, '', '', ''),
+(3, 'Samsung представила Exynos 5430 — один из первых 20-нм процессоров ARM', 'Samsung_predstavila_Exynos_5430__odin_iz_pervykh_20_nm_processorov_ARM', 'Вместе со смартфоном Galaxy Alpha компания Samsung представила новый процессор Exynos 5430, который может стать первым 20-нм чипом ARM, вышедшим на рынок. По сути, речь идёт о 20-нм версии 28-нм чипа Exynos 5 Octa, который благодаря производству по более тонким нормам будет потреблять на 25% меньше энергии ', 'Вместе с запуском нового флагманского смартфона Galaxy Alpha корейская компания Samsung сделала и другой достаточно интересный анонс. Компания представила свой 20-нм процессор, который получил имя Exynos 5 Octa 5430 и будет одним из первых ARM-чипов на рынке, который производится с соблюдением этих передовых норм (и первой однокристальной системой, выпускаемой на мощностях Samsung 20 нм HKMG).\r\n\r\nПравда, речь идёт не о принципиально новом чипе, а о 20-нм варианте 28-нм процессора Exynos 5 Octa 5410 (точнее более свежих вариантов 5420/5422). Новый чип использует аналогичный дизайн ARM big.LITTLE с четырьмя энергоэффективными ядрами CPU Cortex-A7, работающими на частоте 1,3 ГГц, и четырьмя мощными ядрами Cortex-A15 @1,8 ГГц.\r\n\r\nКак и в чипах Exynos 5 Octa 5420, 5422 и 5800, в новом процессоре Samsung сделала выбор в пользу графического ускорителя от ARM — однокристальная система оснащена мощной шестиядерной графикой Mali T628MP6, которая поддерживает ключевые современные API вроде OpenGL ES 3.0, OpenCL 1.1 и Direct3D 11.\r\n\r\nХотя 20-нм техпроцесс Samsung по-прежнему использует только планарные транзисторы (в отличие, например, от 22-нм норм Intel), компания внесла ряд важных оптимизацией, которые делают переход с 28-нм норм HKMG на 20-нм HKMG важным шагом вперёд. Производитель отмечает, что использование 20-нм норм вместо 28 нм в некоторых случаях поможет снизить энергопотребление на 25%.\r\n\r\nПроцессор Exynos 5430 оптимизирован для работы с экранами высокого разрешения вроде WQHD (2560×1440) или WQXGA (2560×1600). Благодаря технологии MIC (Mobile Image Compression) при передаче изображений и мультимедийных данных от процессора к контроллеру дисплея информация сжимается вдвое, что существенно уменьшает требования к пропускной способности. А особый алгоритм Adaptive Hibernation определяет неподвижные части динамического изображения на экране и замораживает передачу этих данных. В совокупности обе технологи дают около 10% экономии энергии мобильного устройства.\r\n\r\nExynos 5430 получил улучшенный двойной цифровой сигнальный процессор. Чип позволяет выводить через интерфейс HDMI мультимедийные данные в разрешении до UHD и декодирует самые разные форматы видео, включая H.265 (HEVC). Пропускная способность памяти достигает 17 Гбайт/с.\r\n\r\nОднокристальная система Exynos 5 Octa 5430 лежит в основе смартфона Galaxy Alpha, так что поступит на рынок уже очень скоро — 12 сентября начнутся продажи аппарата в России. Между прочим, Qualcomm тоже анонсировала 20-нм чипы — Snapdragon 810 и 808, однако выход первых продуктов на их базе состоится несколько позже. В сентябре также ожидается запуск нового поколения iPhone, который должен получить 20-нм чип Apple A8.\r\n', 1407614400, 'Samsung представила Exynos 5430 — один из первых 20-нм процессоров ARM / Новости hardware / 3DNews - Daily Digital Digest', 'samsung, samsung electronics, galaxy, exynos, exynos 5 octa, soc, процессоры, arm, 20 нм', 'Вместе со смартфоном Galaxy Alpha компания Samsung представила новый процессор Exynos 5430, который может стать первым 20-нм чипом ARM,\r\n вышедшим на рынок. По сути, речь идёт о 20-нм версии 28-нм чипа Exynos 5\r\n Octa, который благодаря производству по более тонким нормам будет'),
+(4, ' Обзор 32-дюймового монитора Acer B326HUL: почти как телевизор', 'obzor_32_djujjmovogo_monitora_Acer_B326HUL_pochti_kak_televizor', '<p>\r\n	Главное достоинство Acer B326HUL трудно не заметить: экран с диагональю  32 дюйма и разрешением 2560x1440 пикселей почти не встречается у  компьютерных мониторов &mdash; тем интереснее будет это тестирование. Мы  изучим новый монитор, найдём его слабые и сильные стороны, а также  выясним, имеет ли размер значение\r\n</p>', '<p>Мониторов, диагональ которых превышает отметку в 30 дюймов, на рынке  мало. У большей части таких моделей разрешение составляет 2560х1600  пикселей &mdash; при соотношении сторон 16:10. Затем можно выделить модели с  моднейшим разрешением 4К (3840x2160, 16:9), а версий с более привычным  разрешением 2560x1440 и соотношением сторон 16:9 найдётся всего  несколько. Именно к последней категории и относится наш подопытный, Acer  B326HUL.</p><p><a href="http://www.3dnews.ru/assets/external/illustrations/2014/07/31/825079/Main.jpg"> <img src="http://www.3dnews.ru/assets/external/illustrations/2014/07/31/825079/sm.Main.600.jpg" alt="" height="600" width="468"> </a></p><p>Герой нашей статьи может похвастаться не только габаритами, но и  MVA-матрицей, а значит, и высокой контрастностью. Этот параметр дисплея,  как и другие, мы проверим в разделе «Тестирование», а пока познакомимся  поближе с техническими характеристиками Acer B326HUL.</p><p><a href="http://www.3dnews.ru/825079#contents">⇡</a><a href="http://www.3dnews.ru/825079#%D0%A2%D0%B5%D1%85%D0%BD%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D0%B5%20%D1%85%D0%B0%D1%80%D0%B0%D0%BA%D1%82%D0%B5%D1%80%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B8">#</a>Технические характеристики</p><table> <tbody> <tr><th>Acer B326HUL</th></tr> <tr> <td colspan="2"><strong> Экран</strong></td> </tr> <tr> <td><strong>Диагональ, дюймы</strong></td> <td>32</td> </tr> <tr> <td><strong>Соотношение сторон</strong></td> <td>16:9</td> </tr> <tr> <td><strong>Покрытие матрицы</strong></td> <td>Матовое</td> </tr> <tr> <td><strong>Стандартное разрешение, пикс.</strong></td> <td>2560x1440</td> </tr> <tr> <td><strong> PPI</strong></td> <td>91,79</td> </tr> <tr> <td colspan="2"><strong>Параметры изображения</strong></td> </tr> <tr> <td><strong>Тип матрицы</strong></td> <td>AMVA</td> </tr> <tr> <td><strong>Заявленный цветовой охват</strong></td> <td>72% NTSC</td> </tr> <tr> <td><strong>Тип подсветки</strong></td> <td>LED</td> </tr> <tr> <td><strong>Макс. яркость, кд/м<sup>2</sup></strong></td> <td>300</td> </tr> <tr> <td><strong>Контрастность статическая</strong></td> <td>НД</td> </tr> <tr> <td><strong>Контрастность динамическая</strong></td> <td>100 000 000:1</td> </tr> <tr> <td><strong>Количество отображаемых цветов</strong></td> <td>1,07 млрд</td> </tr> <tr> <td><strong>Частота горизонтальной развёртки, кГц</strong></td> <td>30–80</td> </tr> <tr> <td><strong>Частота вертикальной развёртки, Гц</strong></td> <td>55–75</td> </tr> <tr> <td><strong>Время отклика BtW, мс</strong></td> <td>12</td> </tr> <tr> <td><strong>Время отклика GtG, мс</strong></td> <td>НД</td> </tr> <tr> <td><strong>Максимальные углы обзора по горизонтали/вертикали, °</strong></td> <td>178/178</td> </tr> <tr> <td colspan="2"><strong>Разъемы </strong></td> </tr> <tr> <td><strong>Видеовходы</strong></td> <td>1 x Dual-link DVI-D; <br>1 x DisplayPort; <br>2 x HDMI;</td> </tr> <tr> <td><strong>Видеовыходы</strong></td> <td>НД</td> </tr> <tr> <td><strong>Дополнительные порты</strong></td> <td>4 x USB 2,0 Type A; <br>1 x USB 2,0 Type B; <br>1 x аудиовход (mini-jack 3,5 мм)</td> </tr> <tr> <td><strong>Встроенные колонки: число х мощность, Вт</strong></td> <td>2 x 2</td> </tr> <tr> <td colspan="2"><strong>Физические параметры </strong></td> </tr> <tr> <td><strong>Регулировка положения экрана</strong></td> <td>Угол наклона, регулировка по высоте</td> </tr> <tr> <td><strong>VESA-крепление: размеры, мм</strong></td> <td>100х100</td> </tr> <tr> <td><strong>Крепление для замка Kensington</strong></td> <td>Да</td> </tr> <tr> <td><strong>Блок питания</strong></td> <td>Внутренниый</td> </tr> <tr> <td><strong>Макс. потребляемая мощность: в работе / в режиме ожидания (Вт)</strong></td> <td>45/&lt;1</td> </tr> <tr> <td><strong>Габаритные размеры (с подставкой) </strong> <br><strong> ДхВхГ, мм</strong></td> <td>738х 473&mdash;623х 266</td> </tr> <tr> <td><strong>Габаритные размеры (без подставки) </strong> <br><strong> ДхВхГ, мм</strong></td> <td>НД</td> </tr> <tr> <td><strong>Масса нетто (с подставкой), кг</strong></td> <td>11,99</td> </tr> <tr> <td><strong>Масса нетто (без подставки), кг</strong></td> <td>НД</td> </tr> <tr> <td><strong>Гарантийный срок</strong></td> <td>3 года</td> </tr> <tr> <td><strong>Ориентировочная цена, руб.</strong></td> <td>24 990</td> </tr> </tbody> </table>Разрешение монитора, как мы уже говорили, составляет 2560х1440  пикселей (WQHD), а при диагонали в 32 дюйма величина PPI получается  равной 91,79. Это значит, что объекты на экране Acer B326HUL будут  выглядеть немного крупнее, чем на дисплеях с диагональю 27 дюймов, для  которых это обычное разрешение. Что касается яркостных характеристик, то  заявленная максимальная яркость монитора составляет 300 кд/м<sup>2</sup> &mdash; вполне  стандартное значение. С углами обзора у Acer B326HUL всё должно быть в  порядке &mdash; если судить по официальному сайту, они составляют 178 градусов  по вертикали или горизонтали.В мониторе используется матрица типа AMVA со светодиодной подсветкой  производства AU Optronics &mdash; модель M320DVN01.0. Обычно статическая  контрастность у этих матриц в несколько раз выше, чем у IPS-панелей, но в  Acer почему-то решили не указывать данный параметр в спецификациях. На  сайте приведена только динамическая контрастность, традиционно огромная  &mdash; 100 000 000:1. Впрочем, статическую контрастность можно найти в  спецификациях самой матрицы. По данным производителя (AUO), она  составляет 3000:1. Это в три раза выше, чем у лучших современных  IPS-экранов.<p>Что касается яркости субпикселей, то кодируются они 8 битами с  применением технологии FRC (в результате получаем 10 бит), а значит,  монитор может отображать до 1 миллиарда цветов. Ещё интереснее дела  обстоят со временем отклика. На сайте Acer приведена цифра &mdash; 6 мс, но не  сказано, как она была измерена. Если снова заглянуть в спецификации  AUO, то там можно найти информацию о том, что время отклика матрицы при  переключении от белого к чёрному и обратно (BtW) составляет 12 мс, а при  подъёме сигнала (от чёрного к белому) и спаде (от белого к черному) &mdash; 7  и 5 мс соответственно. К сожалению, время отклика при переключении от  серого к серому (GtG) так и осталось неизвестным.</p><p>Что касается цены дисплея, то на момент написания данной статьи в  российской рознице этот монитор не встречался. Но, по словам Acer,  предполагаемая розничная цена составит 24 990 рублей.</p><p><a href="http://www.3dnews.ru/825079#contents">⇡</a><a href="http://www.3dnews.ru/825079#%D0%9A%D0%BE%D0%BC%D0%BF%D0%BB%D0%B5%D0%BA%D1%82%20%D0%BF%D0%BE%D1%81%D1%82%D0%B0%D0%B2%D0%BA%D0%B8">#</a>Комплект поставки</p><p>Осознание размеров Acer B326HUL приходит после первого взгляда на его  упаковку: она очень, очень большая. На самом деле это не удивительно  &mdash; диагональ монитора обязывает.</p><p><a href="http://www.3dnews.ru/assets/external/illustrations/2014/07/31/825079/Box.jpg"> <img src="http://www.3dnews.ru/assets/external/illustrations/2014/07/31/825079/sm.Box.600.jpg" alt="" height="489" width="600"> </a></p><p>Распаковка &mdash; совершенно внезапно &mdash; оказалась непростой задачей. Для  того чтобы извлечь на свет монитор, сперва надо вынуть из коробки  пенопластовый «сэндвич», внутри которого находится дисплей.  Одному человеку сделать это непросто из-за большой диагонали, поэтому  лучше производить эту деликатную операцию как минимум вдвоём.</p><p>Помимо самого монитора и подставки, в коробке нашлись кабели:</p><ul><li>Dual-Link DVI-D;</li><li>DisplayPort to DisplayPort;</li><li>HDMI to HDMI;</li><li>USB 3.0 Type A &mdash; Type B (для связи монитора с ПК)</li><li>Аудиокабель mini-jack to mini-jack (для вывода звука с ПК);</li><li>Два кабеля питания.</li></ul><p><a href="http://www.3dnews.ru/assets/external/illustrations/2014/07/31/825079/IMG_0111.jpg"> <img src="http://www.3dnews.ru/assets/external/illustrations/2014/07/31/825079/sm.IMG_0111.600.jpg" alt="" height="461" width="600"> </a></p><p>Если судить по тому, что в коробке нашлось два разных кабеля питания,  приехавший в нашу тестовую лабораторию монитор Acer B326HUL  предназначался не для российской розницы. Ничего страшного в этом нет, к  нам часто попадают образцы для других рынков &mdash; это нормальное явление.</p><p><a href="http://www.3dnews.ru/825079#contents">⇡</a><a href="http://www.3dnews.ru/825079#%D0%92%D0%BD%D0%B5%D1%88%D0%BD%D0%B8%D0%B9%20%D0%B2%D0%B8%D0%B4">#</a>Внешний вид</p><p>Корпус монитора сделан из светло-серого шершавого пластика  &mdash; отпечатки пальцев он почти не собирает. Рамки экрана у Acer B326HUL  получились тонкими: толщина левой, правой и верхней рамок составляет по 8  мм, а вот у нижней &mdash; 22 мм. Это не так уж и много при диагонали экрана  32 дюйма.</p><p><a href="http://www.3dnews.ru/assets/external/illustrations/2014/07/31/825079/Front.jpg"> <img src="http://www.3dnews.ru/assets/external/illustrations/2014/07/31/825079/sm.Front.600.jpg" alt="" height="475" width="600"> </a></p><p>Все элементы управления монитора находятся на его передней панели  &mdash; шесть механических клавиш, индикатор работы и логотип производителя,  больше ничего примечательного.</p><p><a href="http://www.3dnews.ru/assets/external/illustrations/2014/07/31/825079/IMG_0057.jpg"> <img src="http://www.3dnews.ru/assets/external/illustrations/2014/07/31/825079/sm.IMG_0057.600.jpg" alt="" height="266" width="600"> </a></p><p><a href="http://www.3dnews.ru/assets/external/illustrations/2014/07/31/825079/IMG_0063.jpg"> <img src="http://www.3dnews.ru/assets/external/illustrations/2014/07/31/825079/sm.IMG_0063.600.jpg" alt="" height="401" width="600"> </a></p><p>На задней панели Acer B326HUL также не найти ничего необычного. Ножка монитора традиционно привинчена к креплению VESA 100x100.</p><p><a href="http://www.3dnews.ru/assets/external/illustrations/2014/07/31/825079/Back.jpg"> <img src="http://www.3dnews.ru/assets/external/illustrations/2014/07/31/825079/sm.Back.600.jpg" alt="" height="481" width="600"> </a></p><p>Порты так же традиционно расположены параллельно плоскости экрана. На  левой стороне монитора находится разъём питания и переключатель Power, а  на правой части собраны все остальные порты. В частности, там находятся  Dual-Link DVI-D, DisplayPort и пара HDMI. Кроме них, на этой стороне  есть 3,5-мм аудиоразъём для вывода звука с ПК, один USB 3.0 типа B (для  подключения к ПК) и два USB 3.0 типа A для подключения периферийных  устройств. А вот разъёма для наушников у дисплея не нашлось.</p><p><a href="http://www.3dnews.ru/assets/external/illustrations/2014/07/31/825079/IMG_0075.jpg"> <img src="http://www.3dnews.ru/assets/external/illustrations/2014/07/31/825079/sm.IMG_0075.600.jpg" alt="" height="128" width="600"> </a></p><table> <tbody> <tr> <td> <a href="http://www.3dnews.ru/assets/external/illustrations/2014/07/31/825079/IMG_0081.jpg"> <img src="http://www.3dnews.ru/assets/external/illustrations/2014/07/31/825079/sm.IMG_0081.400.jpg" alt="" height="213" width="400"> </a> </td>  <td><a href="http://www.3dnews.ru/assets/external/illustrations/2014/07/31/825079/IMG_0082.jpg"> <img src="http://www.3dnews.ru/assets/external/illustrations/2014/07/31/825079/sm.IMG_0082.400.jpg" alt="" height="213" width="400"> </a></td> </tr> </tbody> </table>На левой стороне монитора также есть пара портов USB 3.0 типа A. Все  порты &mdash; и слева, и на задней панели &mdash; позволяют заряжать смартфоны или  планшеты, даже когда монитор выключен, если активировать в меню  соответствующий пункт. Что же касается правой части монитора, то ничего  интересного на ней нет. <table> <tbody> <tr> <td> <a href="http://www.3dnews.ru/assets/external/illustrations/2014/07/31/825079/Left.jpg"> <img src="http://www.3dnews.ru/assets/external/illustrations/2014/07/31/825079/sm.Left.400.jpg" alt="" height="400" width="215"> </a> </td>  <td><a href="http://www.3dnews.ru/assets/external/illustrations/2014/07/31/825079/Right.jpg"> <img src="http://www.3dnews.ru/assets/external/illustrations/2014/07/31/825079/sm.Right.400.jpg" alt="" height="400" width="215"> </a></td> </tr> </tbody> </table>У нашего подопытного есть регулировка по высоте и по наклону. Его  экран может подниматься на высоту до 15 сантиметров, и в этом положении  он может отклоняться на угол от -5 (вперед) до +25 градусов (назад). Но  если опустить экран ниже, то верхняя граница наклона уменьшается до +20  градусов &mdash; экран будет упираться в свою собственную подставку. <table> <tbody> <tr> <td> <a href="http://www.3dnews.ru/assets/external/illustrations/2014/07/31/825079/Up-Max.jpg"> <img src="http://www.3dnews.ru/assets/external/illustrations/2014/07/31/825079/sm.Up-Max.400.jpg" alt="" height="400" width="210"> </a> </td>  <td><a href="http://www.3dnews.ru/assets/external/illustrations/2014/07/31/825079/Up-Min.jpg"> <img src="http://www.3dnews.ru/assets/external/illustrations/2014/07/31/825079/sm.Up-Min.400.jpg" alt="" height="400" width="210"> </a></td> </tr> </tbody> </table>Максимальный угол наклона поднятого экрана составляет 25 градусов в одну сторону и 5 &mdash; в противоположную<a href="http://www.3dnews.ru/assets/external/illustrations/2014/07/31/825079/Ooops.jpg"> <img src="http://www.3dnews.ru/assets/external/illustrations/2014/07/31/825079/sm.Ooops.600.jpg" alt="" height="600" width="524"> </a><p>Если экран не поднят на максимальную высоту, то наибольший угол наклона &mdash; 20 градусов.</p><table> <tbody> <tr> <td> <a href="http://www.3dnews.ru/assets/external/illustrations/2014/07/31/825079/Down-Max.jpg"> <img src="http://www.3dnews.ru/assets/external/illustrations/2014/07/31/825079/sm.Down-Max.400.jpg" alt="" height="400" width="226"> </a> </td>  <td><a href="http://www.3dnews.ru/assets/external/illustrations/2014/07/31/825079/Down-Min.jpg"> <img src="http://www.3dnews.ru/assets/external/illustrations/2014/07/31/825079/sm.Down-Min.400.jpg" alt="" height="400" width="226"> </a></td> </tr> </tbody> </table><p>Ножка у Acer B326HUL большая, что не удивительно: удержать на столе  32-дюймовый монитор массой 12 килограмм &mdash; та ещё задача. Герой нашей  статьи стоит на столе плотно и не шатается.</p><p><a href="http://www.3dnews.ru/assets/external/illustrations/2014/07/31/825079/IMG_0086.jpg"> <img src="http://www.3dnews.ru/assets/external/illustrations/2014/07/31/825079/sm.IMG_0086.600.jpg" alt="" height="391" width="600"> </a></p><p>Согласно инструкции, благодаря поворотному кругу, установленному на  подставке, монитор можно поворачивать на 60 градусов влево или вправо.  Но на деле оказалось, что вращать монитор можно на любой угол.</p><p><a href="http://www.3dnews.ru/assets/external/illustrations/2014/07/31/825079/Pad-1.jpg"> <img src="http://www.3dnews.ru/assets/external/illustrations/2014/07/31/825079/sm.Pad-1.600.jpg" alt="" height="263" width="600"> </a></p><p>Также на верхней части подставки, на правой её стороне, есть  небольшой магнит. Он подойдёт для удерживания скрепок, канцелярских  кнопок и любой другой офисной мелочи.</p><p><a href="http://www.3dnews.ru/825079#contents">⇡</a><a href="http://www.3dnews.ru/825079#%D0%9C%D0%B5%D0%BD%D1%8E%20Acer%20B326HUL">#</a>Меню Acer B326HUL</p><p>Меню у героя нашей статьи получилось простым и наглядным, разделить  его можно на две части: быстрое и полноценное. При нажатии на любую  клавишу монитора, кроме Power, открывается быстрое меню. В нём можно  выбрать один из предустановленных профилей, выполнить автоматическую  настройку изображения (атавизм, оставшийся со времён первых  ЖК-мониторов), перейти в полноценное меню, отрегулировать звук или  выбрать источник входа.</p><p><a href="http://www.3dnews.ru/assets/external/illustrations/2014/07/31/825079/1.jpg"> <img src="http://www.3dnews.ru/assets/external/illustrations/2014/07/31/825079/sm.1.600.jpg" alt="" height="350" width="600"> </a></p><p><a href="http://www.3dnews.ru/assets/external/illustrations/2014/07/31/825079/2.jpg"> <img src="http://www.3dnews.ru/assets/external/illustrations/2014/07/31/825079/sm.2.600.jpg" alt="" height="408" width="600"> </a></p><p>В полной версии меню настроек также не слишком много. Здесь можно  отрегулировать яркость и контрастность, настроить цветовую температуру  (по шаблонам «тёплый», «холодный» и так далее), отрегулировать  насыщенность шести основных цветов, подкрутить гамму или включить режим sRGB.</p><p><a href="http://www.3dnews.ru/assets/external/illustrations/2014/07/31/825079/3_0.jpg"> <img src="http://www.3dnews.ru/assets/external/illustrations/2014/07/31/825079/sm.3_0.600.jpg" alt="" height="600" width="565"> </a></p><p><a href="http://www.3dnews.ru/assets/external/illustrations/2014/07/31/825079/3_1.jpg"> <img src="http://www.3dnews.ru/assets/external/illustrations/2014/07/31/825079/sm.3_1.600.jpg" alt="" height="600" width="577"> </a></p><p><a href="http://www.3dnews.ru/assets/external/illustrations/2014/07/31/825079/3_2.jpg"> <img src="http://www.3dnews.ru/assets/external/illustrations/2014/07/31/825079/sm.3_2.600.jpg" alt="" height="600" width="562"> </a></p><p><a href="http://www.3dnews.ru/assets/external/illustrations/2014/07/31/825079/4.jpg"> <img src="http://www.3dnews.ru/assets/external/illustrations/2014/07/31/825079/sm.4.600.jpg" alt="" height="600" width="582"> </a></p><p><a href="http://www.3dnews.ru/assets/external/illustrations/2014/07/31/825079/5.jpg"> <img src="http://www.3dnews.ru/assets/external/illustrations/2014/07/31/825079/sm.5.600.jpg" alt="" height="600" width="561"> </a></p><p><a href="http://www.3dnews.ru/assets/external/illustrations/2014/07/31/825079/6.jpg"> <img src="http://www.3dnews.ru/assets/external/illustrations/2014/07/31/825079/sm.6.600.jpg" alt="" height="600" width="574"> </a></p>', 1407873600, 'Обзор 32-дюймового монитора Acer B326HUL: почти как телевизор / Мониторы и проекторы / 3DNews - Daily Digital Digest', 'Компьютеры, Hardware, Software, Игры, IT, Программы, ATI, AMD, Intel, Nvidia, видеокарты, материнские платы, цифровые технологии', 'Главное достоинство Acer B326HUL трудно не заметить: экран с диагональю 32 дюйма и разрешением 2560x1440 пикселей почти не встречается у компьютерных мониторов — тем интереснее будет это тестирование. Мы изучим новый монитор, найдём его слабые и сильные стороны, а также выясним, имеет ли размер значение');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `YiiSession`
+--
+
+CREATE TABLE IF NOT EXISTS `YiiSession` (
+  `id` char(32) NOT NULL,
+  `expire` int(11) DEFAULT NULL,
+  `data` blob,
+  PRIMARY KEY (`id`),
+  KEY `expire` (`expire`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `YiiSession`
+--
+
+INSERT INTO `YiiSession` (`id`, `expire`, `data`) VALUES
+('ajfmhkc822t6todok31puj90i2', 1405856134, ''),
+('d5e8hbtg28is8d5od674n84p41', 1410779826, ''),
+('vrb7trt4281o3b1vfgjfgk8gm6', 1401557251, '');

@@ -1,0 +1,136 @@
+.site-login {
+    position: relative;
+    width: 600px;
+    margin: 40px auto;
+}
+.login-page .logo h4  a {
+    font-size: 27px;
+}
+.login-page .logo h4  a strong {
+    /*font-size: 1em;*/
+}
+.pages-index, .pages-create, .pages-view, .pages-update, .padding020 {
+    margin: 0 20px 0 20px;
+}
+.has-error {
+
+}
+.has-error .form-control {
+    border-color: #e70000;
+    -webkit-box-shadow: inset 0 1px 1px rgba(231, 0, 0, 0.07);
+    box-shadow: inset 0 1px 1px rgba(231, 0, 0, 0.07);
+}
+
+.has-error .help-block, .has-error .radio, .has-error .checkbox, .has-error .radio-inline, .has-error .checkbox-inline {
+    color: #fff;
+    background-color: rgba(255, 0, 0, 0.70);
+    padding: 0 10px 0 10px;
+    margin-top: 0;
+    /*display: inline-block;*/
+    /*zoom: 1;*/
+    /**display: inline;*/
+}
+.notifications {
+    display: none;
+}
+.panel-collapse li {
+    border-bottom: 1px solid rgba(240, 240, 240, 0.24);
+}
+.manufacture-form .template-upload .start {
+    display: none;
+}
+
+.show-img {
+    padding: 10px;
+    position: relative;
+}
+.show-img .photo-item {
+    position: relative;
+    display: inline-block;
+    zoom: 1;
+    *display: inline;
+
+}
+.show-img .photo-item img {
+    padding-right: 10px;
+}
+.show-img .photo-item a {
+
+}
+.category-checkbox {
+
+}
+.category-checkbox li ul {
+    padding-left: 20px;
+}
+select {
+    color: #000;
+}
+
+.photos-list li a {
+    color: #fff;
+    font-size: 14px;
+}
+.photos-list {
+    list-style: none;
+
+}
+.photos-list li span.name {
+    display: block;
+}
+.photos-list li {
+    display: inline-block;
+    zoom:1;
+    *display: inline;
+    width: 200px;
+    height: auto;
+    vertical-align: top;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+.photos-list li .ajaxChangePosition {
+    width: 30px;
+    text-align: center;
+}
+.photos-list li .success {
+    border: 1px solid #007400;
+    background-color: #c9ffb2;
+}
+.photos-list li .error {
+    border: 1px solid #c60000;
+    background-color: #ffd2c7;
+}
+
+/* Связные блоки */
+.relatedblock-css {
+
+    /*background-color: #f00;*/
+}
+
+.relatedblock-css div {
+    text-align: center;
+    /*background-color: #DDDDDD;*/
+    margin: 3px;
+    padding: 4px;
+    border: 1px solid #fff;
+}
+.relatedblock-css div img {
+    /*padding-bottom: 10px;*/
+}
+.relatedblock-css div .delete-rel-prod {
+    margin-left: 4px;
+    /*padding: 4px;*/
+}
+/* Тип продкута */
+.property-group fieldset .table {
+    display: none;
+}
+.property-group fieldset legend {
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 22px;
+}
+.redactor_box {
+    color:#000;
+}
