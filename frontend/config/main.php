@@ -20,8 +20,23 @@ return [
         'locality' => [
             'class' => 'common\modules\locality\LocalityModule',
         ],
+
+        'user' => [
+            'class' => 'frontend\modules\user\UserModule',
+        ],
     ],
     'components' => [
+        'authClientCollection' => [
+            'class' => 'yii\authclient\Collection',
+            'clients' => [
+                'facebook' => [
+                    'class' => 'yii\authclients\Facebook',
+                    'clientId' => '651530411629071',
+                    'clientSecret' => 'c54ca75c92e9a1f78ab7f6367aa03c67',
+                ],
+            ],
+        ],
+
         'session' => [
             'class' => 'yii\web\DbSession',
             'sessionTable' => 'frontend_session'
@@ -29,6 +44,7 @@ return [
         'user' => [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
+            'loginUrl' => 'user/default/login'
         ],
 //        'db' => [
 //            'class' => 'yii\db\Connection',
@@ -69,10 +85,17 @@ return [
                 '<module:\w+>/<controller:\w+>/<action:\w+>/<id:\d+>'=>'<module>/<controller>/<action>',
                 '<module:\w+>/<controller:\w+>/<action:\w+>'=>'<module>/<controller>/<action>',
                 '<module:\w+>/<action:\w+>'=>'<module>/default/<action>',
-                'search-result' => 'organization/default/search-result'
+                'search-result' => 'organization/default/search-result',
 //                '<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
 //                '<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
 
+
+                'login' => 'user/default/login',
+                'register' => 'user/default/register',
+                'logout' => 'user/default/logout',
+                'send-message' => 'user/default/send-message',
+
+                'login/<service:google|facebook>' => 'organization/login',
 //                'gii'=>'gii/default/index',
 //                'gii/<controller:\w+>/<action:\w+>'=>'gii/<controller>/<action>',
             ]
