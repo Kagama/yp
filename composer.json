@@ -26,7 +26,11 @@
 		"sim2github/yii2-imperavi-module": "dev-master",
         "phpoffice/phpexcel": "dev-master",
         "zelenin/yii2-sms_ru": "dev-master",
-        "kartik-v/yii2-widgets": "*"
+        "kartik-v/yii2-widgets": "*",
+        "yiisoft/yii2-elasticsearch": "*",
+        "lusitanian/oauth": "0.3.0",
+        "nodge/yii2-eauth": "dev-master",
+        "yiisoft/yii2-authclient": "*"
 	},
 	"require-dev": {
 	},

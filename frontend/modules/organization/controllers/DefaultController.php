@@ -48,30 +48,35 @@ class DefaultController extends Controller
      */
     public function actionNew()
     {
-        $model = new AddOrgForm();
-        $address = [new AddressAddForm()];
+        if (Yii::$app->user->getIsGuest())
+        {
+            Yii::$app->session->setFlash('org_add_guest', '<p>Войдите, чтобы добавить организацию.</p>');
+        } else {
+            $model = new AddOrgForm();
+            $address = [new AddressAddForm()];
 
-        $validate = true;
+            $validate = true;
 
-        if ($model->load(\Yii::$app->request->post())) {
+            if ($model->load(\Yii::$app->request->post())) {
 
-            $_post_address = Yii::$app->request->post('AddressAddForm');
+                $_post_address = Yii::$app->request->post('AddressAddForm');
 
-            foreach ($_post_address as $index => $_post_arr) {
+                foreach ($_post_address as $index => $_post_arr) {
 
-                $address[$index] = new AddressAddForm();
-                $address[$index]->setAttributes($_post_arr);
-                $validate = $validate && $address[$index]->validate();
-            }
-            $model->address = $address;
-            if ($model->validate() && $validate) {
-                if ($model->save()) {
-                    Yii::$app->session->setFlash('org_add_success', '<p>Спасибо за добавление организации.<br />Организация будет добавлена после премодерации.</p>');
+                    $address[$index] = new AddressAddForm();
+                    $address[$index]->setAttributes($_post_arr);
+                    $validate = $validate && $address[$index]->validate();
+                }
+                $model->address = $address;
+                if ($model->validate() && $validate) {
+                    if ($model->save()) {
+                        Yii::$app->session->setFlash('org_add_success', '<p>Спасибо за добавление организации.<br />Организация будет добавлена после премодерации.</p>');
+                    }
                 }
             }
-        }
 
-        return $this->render('new', ['model' => $model, 'address' => $address]);
+            return $this->render('new', ['model' => $model, 'address' => $address]);
+        }
     }
 
     /**

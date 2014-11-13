@@ -2,11 +2,11 @@
 
 namespace common\modules\user\models;
 
-use common\modules\order\models\Order;
+//use common\modules\order\models\Order;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\db\ActiveRecord;
-use yii\helpers\Security;
+use yii\base\Security;
 use yii\web\IdentityInterface;
 
 /**
@@ -22,6 +22,8 @@ use yii\web\IdentityInterface;
  * @property string $phone
  * @property integer $role
  * @property integer $status
+ * @property integer $activate
+ * @property integer $checked
  * @property integer $created_at
  * @property integer $updated_at
  * @property integer $approve_newsletter
@@ -45,11 +47,12 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-//            [['username', 'password'], 'required'],
+            [['phone', 'password'], 'required'],
             [['role', 'status', 'created_at', 'updated_at', 'approve_newsletter'], 'integer'],
             [['username', 'password_hash', 'password_reset_token', 'email', 'password_repeat', 'old_password'], 'string', 'max' => 255],
             [['auth_key'], 'string', 'max' => 32],
-            [['phone'], 'string', 'max' => 128],
+            [['phone', 'activate'], 'string', 'max' => 128],
+            ['password', 'validatePassword'],
             [['phone'], 'exist', 'message' => 'Пользователя с таким номером телефона не существует.', 'on' => 'requestPasswordResetToken'],
             ['password_repeat', 'compare', 'compareAttribute' => 'password', 'operator' => '==', 'on' => 'changePassword'],
         ];
@@ -75,7 +78,9 @@ class User extends ActiveRecord implements IdentityInterface
             'updated_at' => 'Дата обновления',
             'approve_newsletter' => 'Подписка на рассылку',
             'password_repeat' => 'Повторить пароль',
-            'old_password' => 'Старый пароль'
+            'old_password' => 'Старый пароль',
+            'activate' => 'Код активации',
+            'checked' => 'Проверка'
         ];
     }
 
@@ -106,12 +111,13 @@ class User extends ActiveRecord implements IdentityInterface
 
     public function beforeSave($insert)
     {
+        $security = new Security();
         if (parent::beforeSave($insert)) {
             if (($this->isNewRecord || $this->getScenario() === 'resetPassword') && !empty($this->password)) {
-                $this->password_hash = Security::generatePasswordHash($this->password);
+                $this->password_hash = $security->generatePasswordHash($this->password);
             }
             if ($this->isNewRecord) {
-                $this->auth_key = Security::generateRandomKey();
+                $this->auth_key = $security->generateRandomKey();
             }
             return true;
         }
@@ -160,7 +166,7 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * @inheritdoc
      */
-    public static function findIdentityByAccessToken($token)
+    public static function findIdentityByAccessToken($token, $type = null)
     {
         throw new NotSupportedException('"findIdentityByAccessToken" is not implemented.');
     }
@@ -173,7 +179,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findByUsername($username)
     {
-        return static::findOne(['username' => $username, 'status' => 1]);
+        return static::find()->orWhere(['username' => $username])->orWhere(['phone' => $username])->one();
     }
 
     /**
@@ -241,7 +247,8 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function validatePassword($password)
     {
-        return Security::validatePassword($password, $this->password_hash);
+        $validPass = new Security();
+        return $validPass->validatePassword($password, $this->password_hash);
     }
 
     /**
@@ -251,7 +258,8 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function setPassword($password)
     {
-        $this->password_hash = Security::generatePasswordHash($password);
+        $hash = new Security();
+        $this->password_hash = $hash->generatePasswordHash($password);
     }
 
 
@@ -271,7 +279,8 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function generateAuthKey()
     {
-        $this->auth_key = Security::generateRandomKey();
+        $auth = new Security();
+        $this->auth_key = $auth->generateRandomKey();
     }
 
     /**
@@ -279,7 +288,8 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function generatePasswordResetToken()
     {
-        $this->password_reset_token = Security::generateRandomKey() . '_' . time();
+        $rand = new Security();
+        $this->password_reset_token = $rand->generateRandomKey() . '_' . time();
     }
 
     /**
@@ -302,15 +312,20 @@ class User extends ActiveRecord implements IdentityInterface
         return $this->hasOne(UserRole::className(), ['id' => 'role']);
     }
 
-    public function ordersCount()
+    public function findByPhone($phone)
     {
-        return Order::find()->where('user_id = :id', [':id' => $this->getId()])->count();
+        return static::findOne(['phone' => $phone, 'status' => 1]);
     }
 
-    public function totalOrdersPrice()
+    public function generateActivationKey()
     {
-        $order = new Order();
-        return $order->totalPriceByUser($this->getId());
+        $activate = new Security();
+        return strtr($activate->generateRandomString(6),'_-', 'bB');
     }
 
+    public function setCheck()
+    {
+        $this->checked = true;
+        $this->save();
+    }
 }
