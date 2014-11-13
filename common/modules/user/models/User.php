@@ -177,7 +177,7 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     *  Исчем пользователя по заданым свойствам
+     *  Ищем пользователя по заданым свойствам
      *
      * @param  array $propertiesArr
      * @return static|null
