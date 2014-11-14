@@ -48,13 +48,12 @@ class DefaultController extends Controller
      */
     public function actionNew()
     {
-        if (Yii::$app->user->getIsGuest())
-        {
-            Yii::$app->session->setFlash('org_add_guest', '<p>Войдите, чтобы добавить организацию.</p>');
-        } else {
-            $model = new AddOrgForm();
-            $address = [new AddressAddForm()];
+        $model = new AddOrgForm();
+        $address = [new AddressAddForm()];
 
+//        if (Yii::$app->user->isGuest) {
+//            Yii::$app->session->setFlash('org_add_guest', '<p>Войдите, чтобы добавить организацию.</p>');
+//        } else {
             $validate = true;
 
             if ($model->load(\Yii::$app->request->post())) {
@@ -74,9 +73,8 @@ class DefaultController extends Controller
                     }
                 }
             }
-
-            return $this->render('new', ['model' => $model, 'address' => $address]);
-        }
+//        }
+        return $this->render('new', ['model' => $model, 'address' => $address]);
     }
 
     /**
@@ -86,7 +84,7 @@ class DefaultController extends Controller
     public function actionSearchResult()
     {
         $search_value = Yii::$app->request->get('search_value');
-       // $region = Yii::$app->request->get('region');
+        // $region = Yii::$app->request->get('region');
 
         $query = KeyValueOrganization::find();
 
@@ -94,7 +92,7 @@ class DefaultController extends Controller
             'query' => $query
         ]);
         $dataProvider->query->andWhere(['like', 'value', $search_value]);
-       // $dataProvider->query->andWhere(['like', 'value', $region]);
+        // $dataProvider->query->andWhere(['like', 'value', $region]);
         $dataProvider->pagination->pageSize = 20;
 
         return $this->render('search-result', [

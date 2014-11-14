@@ -26,14 +26,13 @@ AppAsset::register($this);
     <?php $this->beginBody() ?>
     <div class="container">
         <div class="col-lg-12 col-md-12 top-head-block"  style=" padding: 20px 20px 20px 20px; ">
-            <?php if (Yii::$app->user->getId())
-            { ?>
-                <a href="<?=Url::to(['/organization/new'])?>" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-ok-sign"></span> Добавить организацию</a>
-            <?php } ?>
+
+            <a href="<?=Url::to(['/organization/new'])?>" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-ok-sign"></span> Добавить организацию</a>
+
             <a href="<?=Url::to(['/organization/category/index'])?>" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-list-alt"></span> Рубрикатор</a>
             <a href="<?=Url::to(['/news'])?>" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-list"></span> Новости компаний</a>
 
-            <?php if (Yii::$app->user->getId())
+            <?php if (Yii::$app->user->isGuest)
             { ?>
                 <a href="<?=Url::to(['/register'])?>" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-list"></span> Регистрация </a>
                 <a href="<?=Url::to(['/login'])?>" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-list"></span> Вход </a>

@@ -13,10 +13,9 @@ use frontend\assets\AppAsset;
 ?>
 
 <?php
-if (Yii::$app->session->hasFlash('org_add_success')) {
+if (Yii::$app->user->isGuest) {
     ?>
-    <p><?php echo Yii::$app->session->getFlash('org_add_success');
-        Yii::$app->session->setFlash('org_add_success', null); ?></p>
+    <p>Для добавления организации необходимо войти или зарегистрироваться</p>
 <?php
 } else {
     Yii::$app->view->registerJs('var work_time_index = 0;
