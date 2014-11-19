@@ -24,6 +24,10 @@ return [
         'user' => [
             'class' => 'frontend\modules\user\UserModule',
         ],
+
+        'comment' => [
+            'class' => 'frontend\modules\comment\CommentModule',
+        ]
     ],
     'components' => [
         'authClientCollection' => [
@@ -42,9 +46,9 @@ return [
             'sessionTable' => 'frontend_session'
         ],
         'user' => [
-            'identityClass' => 'common\models\User',
+            'identityClass' => 'common\modules\user\models\User',
             'enableAutoLogin' => true,
-            'loginUrl' => 'user/default/login'
+            'loginUrl' => 'user/login'
         ],
 //        'db' => [
 //            'class' => 'yii\db\Connection',

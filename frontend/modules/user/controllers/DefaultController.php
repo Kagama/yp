@@ -29,6 +29,8 @@ class DefaultController extends Controller
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post())) {
             $user = User::findOne(['phone' => $model->username]);
+            if (!$user)
+                $user = User::findOne(['username' => $model->username]);
             if (!$user->checked)
             {
                 $this->redirect(['send-message', 'phone' => $user->phone]);

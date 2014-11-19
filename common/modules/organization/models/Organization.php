@@ -2,6 +2,7 @@
 
 namespace common\modules\organization\models;
 
+use common\modules\comments\models\Comments;
 use common\modules\locality\models\Region;
 use Yii;
 use yii\web\Cookie;
@@ -117,6 +118,11 @@ class Organization extends \yii\db\ActiveRecord
     public function getAddress()
     {
         return $this->hasMany(Address::className(), ['org_id' => 'id']);
+    }
+
+    public function getComments()
+    {
+        return $this->hasMany(Comments::className(), ['org_id' => 'id']);
     }
 
     public  function setCookie() {

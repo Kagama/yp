@@ -30,6 +30,9 @@ use yii\web\IdentityInterface;
  */
 class User extends ActiveRecord implements IdentityInterface
 {
+    /**
+     * @var array EAuth attributes
+     */
     const STATUS_ACTIVE = 1;
     public $password_repeat;
     public $old_password;
@@ -48,13 +51,13 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             [['phone', 'password'], 'required'],
-            [['role', 'status', 'created_at', 'updated_at', 'approve_newsletter'], 'integer'],
-            [['username', 'password_hash', 'password_reset_token', 'email', 'password_repeat', 'old_password'], 'string', 'max' => 255],
-            [['auth_key'], 'string', 'max' => 32],
+//            [['role', 'status', 'created_at', 'updated_at', 'approve_newsletter'], 'integer'],
+//            [['username', 'password_hash', 'password_reset_token', 'email', 'password_repeat', 'old_password'], 'string', 'max' => 255],
+//            [['auth_key'], 'string', 'max' => 32],
             [['phone', 'activate'], 'string', 'max' => 128],
             ['password', 'validatePassword'],
             [['phone'], 'exist', 'message' => 'Пользователя с таким номером телефона не существует.', 'on' => 'requestPasswordResetToken'],
-            ['password_repeat', 'compare', 'compareAttribute' => 'password', 'operator' => '==', 'on' => 'changePassword'],
+//            ['password_repeat', 'compare', 'compareAttribute' => 'password', 'operator' => '==', 'on' => 'changePassword'],
         ];
     }
 

@@ -8,6 +8,7 @@
 use yii\helpers\Html;
 use yii\web\View;
 use yii\helpers\Url;
+use frontend\modules\comment\widgets\Comments;
 
 $this->params['breadcrumbs'] = [
     ['label' => "Рубрикатор", 'url' => ['/organization/category/index']],
@@ -96,6 +97,10 @@ $this->params['breadcrumbs'] = [
 
         <div class="description">
             <?= $model->description; ?>
+        </div>
+
+        <div class="comments">
+            <?= Comments::widget(['model' => $model])?>
         </div>
 <!--        <div class="col-lg-12 tags">-->
 <!--            Теги:-->
