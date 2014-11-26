@@ -30,15 +30,23 @@ Yii::$app->view->registerJs("
             $('#next').html('Показать предыдущие');
             offsetComment = 0;
         } else {
+            $('#next').hide();
+            $('#ajax-loader').show();
             $.ajax({
                 method:'get',
                 url:'/comment/default/show.html',
                 data: {org_id: " . $model->id . ", offset: offsetComment},
                 success: function (msg) {
+                    if (msg.error) {
+                        alert(msg.message);
+                    } else {
+                        $('#ajax-loader').hide();
+                        $('#next').show();
                         $('#add-here').prepend(msg);
                         if ($('#finish').val() == 1)
                             $('#next').html('Скрыть');
                         offsetComment++;
+                    }
                 }
             });
         }
@@ -49,27 +57,16 @@ Yii::$app->view->registerJs("
 <?php date_default_timezone_set('etc/GMT-3')?>
 
 <div id="comments">
-    <?php
-    $countComments = count($comments);
-    if ($countComments == 0) {
+    <?php;
+    if (count($comments) == 0) {
             echo "Нет отзывов";
     }
-    else {
-        if ($countComments == 4) {
-        ?><span id = "next">Показать предыдущие</span>
-            <div id="add-here">
-
-            </div>
-
-
-        <?
-            $comment = end($comments);
-            $comment = prev($comments);
-        } else
-            $comment = end($comments);?>
+    else { ?>
         <?php
-
-        while ($comment != false) { ?>
+        foreach ($comments as $index => $comment) {
+            if ($index == 3) {
+                continue;
+            }?>
             <fieldset>
                 <legend>
                     <div class="user">
@@ -84,9 +81,13 @@ Yii::$app->view->registerJs("
                     <?= 'Дата написания: '. date('d/m/Y H:i', $comment->created_at) ?>
                 </div>
             </fieldset>
-        <?php
-            $comment = prev($comments);
-        } ?>
+        <?php } ?>
+
+        <div id="add-here">
+
+        </div>
+        <?= Html::img('ajax-loader.gif', ['id' => 'ajax-loader', 'hidden' => true])?>
+        <span id = "next">Показать предыдущие</span>
     <?php } ?>
 </div>
 

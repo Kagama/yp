@@ -24,6 +24,7 @@ class AddressAddForm extends Model
             // username and password are both required
             [['address', 'phone'], 'required'],
             [['point_name'], 'string', 'max' => 1024],
+            [['fax'], 'string', 'max' => 512],
         ];
     }
 

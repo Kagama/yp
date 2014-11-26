@@ -12,15 +12,10 @@ use common\modules\user\models\User;
     <?php
         if (count($comments) != 11) {
                 echo \yii\helpers\Html::hiddenInput('finish', 1, ['id' => 'finish']);
-            $comment = end($comments);
-        } else {
-            $comment = end($comments);
-            $comment = prev($comments);
         }
-            ?>
-
-            <?php
-            while ($comment != false) { ?>
+            foreach ($comments as $index => $comment) {
+                if ($index == 10)
+                    continue; ?>
                 <fieldset>
                     <legend>
                         <div class="user">
@@ -35,8 +30,6 @@ use common\modules\user\models\User;
                         <?= 'Дата написания: '. date('d/m/Y H:i', $comment->created_at) ?>
                     </div>
                 </fieldset>
-            <?php
-                $comment = prev($comments);
-            } ?>
+            <?php } ?>
 
 </div>

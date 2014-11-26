@@ -7,6 +7,9 @@ namespace common\modules\organization\models;
 use Yii;
 use yii\base\Model;
 use common\models\Tags;
+use common\helpers\CDirectory;
+use common\helpers\CString;
+use yii\web\UploadedFile;
 
 /**
  * Created by PhpStorm.
@@ -24,12 +27,10 @@ class AddOrgForm extends Model
     public $latitude;
     public $longitude;
     public $org_type;
-//    public $region;
     public $top_manager;
     public $contacts_email;
-//    public $contacts_phone;
     public $contacts_site;
-//    public $contacts_fax;
+    public $img;
 
 
     private $_identity;
@@ -51,6 +52,7 @@ class AddOrgForm extends Model
             [['contacts_site'], 'url'],
             [['latitude', 'longitude', 'org_type'], 'double'],
             [['description', 'top_manager'], 'string', 'max' => Yii::$app->params['max_length_text_field']],
+            [['img'], 'image', 'extensions' => 'jpg, png', 'mimeTypes' => 'image/jpeg, image/png',],
         ];
     }
 
@@ -69,11 +71,8 @@ class AddOrgForm extends Model
             'org_type' => 'Организационно-правовая форма',
             'tags' => 'Тематические теги (например: Ролы, Салаты, Живая музыка)',
             'contacts_email' => 'E-mail (например: info@info.ru)',
-//            'contacts_mobile' => 'Номер моб. тел.',
-//            'contacts_phone' => 'Номер тел.',
             'contacts_site' => 'Адрес сайта (например: http://www.kagama.ru)',
-//            'contacts_fax' => 'Факс'
-
+            'img' => 'Фотография',
         ];
     }
 
@@ -86,12 +85,7 @@ class AddOrgForm extends Model
 
         $org->name = $this->name;
         $org->description = $this->description;
-//        $region = Region::find()->where('name = :name ', [':name' => trim($this->region)])->one();
-//        $org->locality_id = $region->id;
         $org->category = $this->category;
-//        $org->address = $this->address;
-//        $org->latitude = $this->latitude;
-//        $org->longitude = $this->longitude;
         $org->org_type = $this->org_type;
         $org->top_manager = $this->top_manager;
 
@@ -100,6 +94,18 @@ class AddOrgForm extends Model
         $tag = new Tags();
         $tag->add($this->tags);
 
+        $image = UploadedFile::getInstance($this, 'img');
+
+        if ($image) {
+            $date = getdate();
+            $path = 'images/' . $date['year'] . '/' . $date['mon'] . '/' . $date['mday'] . '/' . $this->name;
+            CDirectory::createDir($path);
+            $dir = Yii::$app->basePath . "/../" . $path;
+            $imageName = md5(CString::translitTo($image) . microtime()) . "." . $image->getExtension();
+            $image->saveAs($dir . "/" . $imageName);
+            $org->img_src = $path;
+            $org->img = $imageName;
+        }
 
         if ($org->save()) {
             $primaryKey = $org->getPrimaryKey();

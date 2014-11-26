@@ -51,17 +51,14 @@ class DefaultController extends Controller
         $model = new AddOrgForm();
         $address = [new AddressAddForm()];
 
-//        if (Yii::$app->user->isGuest) {
-//            Yii::$app->session->setFlash('org_add_guest', '<p>Войдите, чтобы добавить организацию.</p>');
-//        } else {
             $validate = true;
 
             if ($model->load(\Yii::$app->request->post())) {
 
+
                 $_post_address = Yii::$app->request->post('AddressAddForm');
 
                 foreach ($_post_address as $index => $_post_arr) {
-
                     $address[$index] = new AddressAddForm();
                     $address[$index]->setAttributes($_post_arr);
                     $validate = $validate && $address[$index]->validate();
@@ -73,8 +70,10 @@ class DefaultController extends Controller
                     }
                 }
             }
-//        }
-        return $this->render('new', ['model' => $model, 'address' => $address]);
+        return $this->render('new', [
+            'model' => $model,
+            'address' => $address
+        ]);
     }
 
     /**

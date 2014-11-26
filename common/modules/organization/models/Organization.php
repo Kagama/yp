@@ -31,6 +31,8 @@ use yii\web\Cookie;
  * @property integer $locality_id
  * @property integer $approve
  * @property string $top_manager
+ * @property string $img
+ * @property string $img_src
  */
 class Organization extends \yii\db\ActiveRecord
 {
@@ -53,8 +55,8 @@ class Organization extends \yii\db\ActiveRecord
             [['description', 'seo_description'], 'string'],
 //            [['longitude', 'latitude'], 'number'],
             [['simple_name', 'seo_title', 'seo_keywords'], 'string', 'max' => 254],
-            [['name', 'logo_img', 'top_manager'], 'string', 'max' => 512],
-            [['tags'], 'string', 'max' => 1024]
+            [['name', 'logo_img', 'top_manager', 'img'], 'string', 'max' => 512],
+            [['tags', 'img_src'], 'string', 'max' => 1024]
         ];
     }
 
@@ -85,7 +87,9 @@ class Organization extends \yii\db\ActiveRecord
             'locality_id' => 'Населенный пукнит',
             'approve' => 'Статус ободрения',
             'top_manager' => 'Top Manager',
-            'views_count' => 'Счетчик'
+            'views_count' => 'Счетчик',
+            'img' => 'Фотография',
+            'img_src' => 'Путь к фотографии',
         ];
     }
 

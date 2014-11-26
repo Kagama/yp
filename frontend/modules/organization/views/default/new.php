@@ -17,7 +17,10 @@ if (Yii::$app->user->isGuest) {
     ?>
     <p>Для добавления организации необходимо войти или зарегистрироваться</p>
 <?php
-} else {
+} elseif (Yii::$app->session->hasFlash('org_add_success')) {
+   echo Yii::$app->session->getFlash('org_add_success');
+    Yii::$app->session->setFlash('org_add_success', null);
+}else {
     Yii::$app->view->registerJs('var work_time_index = 0;
         $(document).ready(function () {
             hideShowWorkDayDeleteLink();
@@ -102,7 +105,8 @@ if (Yii::$app->user->isGuest) {
         'options' => [
             'novalidate' => "novalidate",
             'method' => "post",
-            'data-validate' => "parsley"
+            'data-validate' => "parsley",
+            'enctype' => 'multipart/form-data'
         ]
     ]); ?>
     <!--    <div class="container">-->
@@ -112,9 +116,10 @@ if (Yii::$app->user->isGuest) {
 
             <?= $form->field($model, 'name')->textInput(['maxlength' => 512]) ?>
 
+            <div>
+                <?= $form->field($model, 'img')->fileInput(['id'=>"mf", 'maxlength' => 1]) ?>
 
-
-
+            </div>
 
             <?= $form->field($model, 'description')->textarea(['rows' => 6, 'style' => 'width:940px; min-width:940px; max-width:940px; height:150px; min-height:150px; max-height:150px;']) ?>
             <p class="hint" id="chars_counter" style="color: #696969; font-size: 10px;">Осталось <strong
