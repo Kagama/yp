@@ -4520,7 +4520,7 @@ input[type="submit"].btn-block, input[type="reset"].btn-block, input[type="butto
     color: #fff
 }
 
-.breadcrumb {
+.bread .breadcrumb {
     padding: 8px 15px;
     margin-bottom: 20px;
     list-style: none;

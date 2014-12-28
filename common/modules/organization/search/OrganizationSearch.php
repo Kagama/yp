@@ -17,7 +17,6 @@ class OrganizationSearch extends Organization
         return [
             [['id', 'org_type', 'locality', 'registration_date', 'update_date', 'category', 'user', 'locality_id', 'approve'], 'integer'],
             [['simple_name', 'name', 'logo_img', 'description', 'address', 'tags', 'seo_title', 'seo_keywords', 'seo_description', 'top_manager'], 'safe'],
-            [['longitude', 'latitude'], 'number'],
         ];
     }
 
@@ -47,8 +46,6 @@ class OrganizationSearch extends Organization
             'update_date' => $this->update_date,
             'category' => $this->category,
             'user' => $this->user,
-            'longitude' => $this->longitude,
-            'latitude' => $this->latitude,
             'locality_id' => $this->locality_id,
             'approve' => $this->approve,
         ]);

@@ -5,8 +5,11 @@
  * Date: 20.07.14
  * Time: 23:32
  */
+$this->title = $search_value. '- поиск по организациям';
 ?>
+
 <!--<div class="container">-->
+
     <div class="row">
         <h1 style="margin-left: 20px; padding-bottom: 10px;">Результат поиска : "<?=$search_value?>"</h1>
         <div class="col-lg-9">
@@ -29,7 +32,6 @@
                 ])
                 ?>
             </div>
-
         </div>
         <div class="col-lg-3">
             <?=\frontend\modules\organization\widget\BookmarkWidget::widget()?>

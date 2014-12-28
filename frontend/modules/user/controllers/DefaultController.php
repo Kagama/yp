@@ -20,11 +20,51 @@ class DefaultController extends Controller
         return $this->render('index');
     }
 
+    /**
+     * Авторизация пользователя
+     * @return string|\yii\web\Response
+     * @throws \yii\base\ErrorException
+     * @throws \yii\base\InvalidConfigException
+     */
+
     public function actionLogin()
     {
         if (!\Yii::$app->user->isGuest) {
-        return $this->goHome();
+            return $this->goHome();
         }
+
+        $serviceName = Yii::$app->getRequest()->getQueryParam('service');
+
+        if (isset($serviceName)) {
+            /** @var $eauth \nodge\eauth\ServiceBase */
+
+            $eauth = Yii::$app->get('eauth')->getIdentity($serviceName);
+            $eauth->setRedirectUrl(Yii::$app->getUser()->getReturnUrl());
+            $eauth->setCancelUrl(Yii::$app->getUrlManager()->createAbsoluteUrl('user/default/login'));
+
+            try {
+                if ($eauth->authenticate()) {
+                    $identity = User::findByEAuth($eauth);
+                    Yii::$app->getUser()->login($identity);
+
+                    // special redirect with closing popup window
+                    $eauth->redirect();
+                }
+                else {
+                    // close popup window and redirect to cancelUrl
+                    $eauth->cancel();
+                }
+            }
+            catch (\nodge\eauth\ErrorException $e) {
+                // save error to show it later
+                Yii::$app->getSession()->setFlash('error', 'EAuthException: '.$e->getMessage());
+
+                // close popup window and redirect to cancelUrl
+//				$eauth->cancel();
+                $eauth->redirect($eauth->getCancelUrl());
+            }
+        }
+
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post())) {
@@ -42,6 +82,10 @@ class DefaultController extends Controller
             ]);
     }
 
+    /**
+     * Выход пользователя
+     * @return \yii\web\Response
+     */
     public function actionLogout()
     {
 //        var_dump();var_dump
@@ -51,6 +95,10 @@ class DefaultController extends Controller
         return $this->goHome();
     }
 
+    /**
+     * Регистрация пользователя
+     * @return string|\yii\web\Response
+     */
     public function actionRegister(){
         if (!\Yii::$app->user->isGuest) {
             return $this->goHome();
@@ -71,6 +119,11 @@ class DefaultController extends Controller
         ]);
     }
 
+    /**
+     * Отправка сообщения с кодом пользователю
+     * @param $phone
+     * @return string
+     */
     public function actionSendMessage($phone)
     {
         $userModel = User::findOne(['phone' => $phone]);

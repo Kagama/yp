@@ -19,6 +19,8 @@ class NewsModuleAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
+        'css/lightblue/application.min.css',
+        'css/site.css',
     ];
     public $js = [
         'lib/lightblue/jquery-maskedinput/jquery.maskedinput.js',

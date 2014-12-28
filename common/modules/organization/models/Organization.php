@@ -2,10 +2,15 @@
 
 namespace common\modules\organization\models;
 
-use common\modules\comments\models\Comments;
+use common\helpers\CDirectory;
+use common\helpers\CString;
 use common\modules\locality\models\Region;
 use Yii;
+use yii\helpers\VarDumper;
 use yii\web\Cookie;
+use common\modules\organization\models\ElasticKeyValue;
+use yii\web\UploadedFile;
+
 
 /**
  * This is the model class for table "ka_organization".
@@ -53,7 +58,6 @@ class Organization extends \yii\db\ActiveRecord
             [['name', 'description', 'category'], 'required'],
             [['org_type', 'locality', 'registration_date', 'update_date', 'category', 'user', 'locality_id', 'approve'], 'integer'],
             [['description', 'seo_description'], 'string'],
-//            [['longitude', 'latitude'], 'number'],
             [['simple_name', 'seo_title', 'seo_keywords'], 'string', 'max' => 254],
             [['name', 'logo_img', 'top_manager', 'img'], 'string', 'max' => 512],
             [['tags', 'img_src'], 'string', 'max' => 1024]
@@ -68,25 +72,20 @@ class Organization extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'simple_name' => 'Короткое название',
-            'name' => 'Полное название',
+            'name' => 'Название',
             'org_type' => 'Тип организации',
-            'logo_img' => 'Фото лого',
+            'logo_img' => 'Логотип организации',
             'description' => 'Описание',
-            'locality' => 'Раселенный пункт',
-//            'address' => 'Адрес',
             'registration_date' => 'Дата регистрации',
             'update_date' => 'Дата обновления',
             'category' => 'Категория',
             'user' => 'Пользователь',
             'tags' => 'Тэги',
-//            'longitude' => 'Долгота',
-//            'latitude' => 'Широта',
             'seo_title' => 'SEO Заголовок',
             'seo_keywords' => 'SEO Ключевые слова',
             'seo_description' => 'SEO Описание',
-            'locality_id' => 'Населенный пукнит',
-            'approve' => 'Статус ободрения',
-            'top_manager' => 'Top Manager',
+            'approve' => 'Статус одобрения',
+            'top_manager' => 'Топ-менеджер',
             'views_count' => 'Счетчик',
             'img' => 'Фотография',
             'img_src' => 'Путь к фотографии',
@@ -95,6 +94,25 @@ class Organization extends \yii\db\ActiveRecord
 
     public function afterSave($insert, $attributes)
     {
+        $file = UploadedFile::getInstance($this, 'img');
+
+        if ($file instanceof UploadedFile) {
+            $path = "/images/organization/".date("Y/m/d", time())."/".$this->getPrimaryKey();;
+            CDirectory::createDir($path);
+            $dir = Yii::$app->basePath . '/../' . $path;
+            $imageName = CString::translitTo($this->name) . '.' . $file->getExtension();
+
+            $file->saveAs($dir . '/' . $imageName);
+            static::updateAll(['img' => $imageName, 'img_src' => $path], ['id' => $this->getPrimaryKey()]);
+
+        }
+
+        $elastic = new ElasticKeyValue();
+        if ($this->approve == 1) {
+            $elastic->saveValue($this);
+        } else {
+            $elastic->deleteValue($this);
+        }
 
         parent::afterSave($insert, $attributes);
     }

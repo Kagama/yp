@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 
-$this->registerAssetBundle('backend\modules\news\assets\NewsModuleAsset', \yii\web\View::POS_HEAD);
+$this->registerAssetBundle('backend\assets\BaseAsset', \yii\web\View::POS_HEAD);
 
 /**
  * @var yii\web\View $this

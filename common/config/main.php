@@ -37,14 +37,32 @@ return [
             'services' => array(
                 'vkontakte' => array(
                     'class' => 'nodge\eauth\services\VKontakteOAuth2Service',
-                    'clientId' => '4592595',
-                    'clientSecret' => '34ZfCzr4wc3kmFfxrYyY',
+                    'clientId' => '4668162',
+                    'clientSecret' => '4MW0EniaSGafO9e1pWc9',
                 ),
                 'facebook' => array(
                     // register your app here: https://developers.facebook.com/apps/
                     'class' => 'nodge\eauth\services\FacebookOAuth2Service',
                     'clientId' => '651530411629071',
-                    'clientSecret' => 'c54ca75c92e9a1f78ab7f6367aa03c67',)
+                    'clientSecret' => 'c54ca75c92e9a1f78ab7f6367aa03c67',
+                ),
+
+                'twitter' => array(
+                    // register your app here: https://dev.twitter.com/apps/new
+                    'class' => 'nodge\eauth\services\TwitterOAuth1Service',
+                    'key' => '6L4wBoGhYEQvVTCKEMQoGuZJm',
+                    'secret' => 'kX7Brk3uJQr5VJSKlffRqzTjcNJiKflSb8yPBGOxWRyg5D1NGe',
+                ),
+
+                'odnoklassniki' => array(
+                    // register your app here: http://dev.odnoklassniki.ru/wiki/pages/viewpage.action?pageId=13992188
+                    // ... or here: http://www.odnoklassniki.ru/dk?st.cmd=appsInfoMyDevList&st._aid=Apps_Info_MyDev
+                    'class' => 'nodge\eauth\services\OdnoklassnikiOAuth2Service',
+                    'clientId' => '...',
+                    'clientSecret' => '...',
+                    'clientPublic' => '...',
+                    'title' => 'Одноклассники',
+                ),
             ),
         )
     ],

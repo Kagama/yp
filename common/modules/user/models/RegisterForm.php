@@ -51,7 +51,7 @@ class RegisterForm extends Model
             'password' => 'Пароль',
             'auth_key' => 'Auth Key',
             'password_hash' => 'Password Hash',
-            'phone' => 'Номер моб. телефона (без +7, пробелов и скобок)',
+            'phone' => 'Номер моб. телефона',
             'created_at' => 'Дата регистрации',
             'updated_at' => 'Дата обновления',
             'password_repeat' => 'Повторить пароль',

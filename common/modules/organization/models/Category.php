@@ -2,7 +2,10 @@
 
 namespace common\modules\organization\models;
 
+use common\helpers\CDirectory;
+use common\helpers\CString;
 use Yii;
+use yii\web\UploadedFile;
 
 /**
  * This is the model class for table "ka_org_category".
@@ -34,10 +37,11 @@ class Category extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'alt_name', 'logo', 'seo_title', 'seo_keywords', 'seo_description'], 'required'],
+            [['name', 'alt_name', 'seo_title', 'seo_keywords', 'seo_description'], 'required'],
             [['owner_id', 'position', 'level'], 'integer'],
             [['seo_description'], 'string'],
-            [['name', 'alt_name', 'logo', 'seo_title', 'seo_keywords'], 'string', 'max' => 254]
+            [['name', 'alt_name', 'seo_title', 'seo_keywords'], 'string', 'max' => 254],
+            ['logo', 'string', 'max' => 1024]
         ];
     }
 
@@ -58,6 +62,29 @@ class Category extends \yii\db\ActiveRecord
             'seo_keywords' => 'Seo Keywords',
             'seo_description' => 'Seo Description',
         ];
+    }
+
+    public function afterSave($insert, $attributes)
+    {
+        $file = UploadedFile::getInstance($this, 'logo');
+
+        if ($file instanceof UploadedFile) {
+            $path = "/images/category/".date("Y/m/d", time())."/".$this->getPrimaryKey();
+            CDirectory::createDir($path);
+            $dir = Yii::$app->basePath . '/../' . $path;
+            $imageName = CString::translitTo($this->name) . '.' . $file->getExtension();
+
+            $file->saveAs($dir . '/' . $imageName);
+            static::updateAll(['logo' => $path.'/'.$imageName], ['id' => $this->getPrimaryKey()]);
+
+        }
+
+//        var_dump($this->img);
+//        var_dump($this->img_src);
+//        if ($this->ap prove == 1)
+//        {}
+
+        parent::afterSave($insert, $attributes);
     }
 
     public function getParent()

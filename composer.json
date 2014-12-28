@@ -29,7 +29,7 @@
         "kartik-v/yii2-widgets": "*",
         "yiisoft/yii2-elasticsearch": "*",
         "lusitanian/oauth": "0.3.0",
-        "nodge/yii2-eauth": "dev-master",
+        "nodge/yii2-eauth": "~2.0",
         "yiisoft/yii2-authclient": "*"
 	},
 	"require-dev": {
@@ -49,19 +49,23 @@
 		"process-timeout": 1800
 	},
 	"extra": {
-		"writable": [
-			"backend/runtime",
-			"backend/web/assets",
+	  "writable": [
+		  "backend/runtime",
+		  "backend/web/assets",
 
-			"console/runtime",
-			"console/migrations",
+		  "console/runtime",
+		  "console/migrations",
 
-			"frontend/runtime",
-			"frontend/web/assets"
-		],
-        "asset-installer-paths": {
-            "npm-asset-library": "vendor/npm",
-            "bower-asset-library": "vendor/bower"
-        }
+		  "frontend/runtime",
+		  "frontend/web/assets"
+	  ],
+	  "asset-installer-paths": {
+		  "npm-asset-library": "vendor/npm",
+		  "bower-asset-library": "vendor/bower"
+	  },
+
+	  "executable": [
+		"yii"
+	  ]
 	}
 }

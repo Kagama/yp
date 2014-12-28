@@ -16,18 +16,17 @@ use yii\helpers\Url;
 
         </div>
         <div class="col-lg-10">
-            <?= Html::a($model->orgType->name . " " . $model->name, ['/show-organization-info/', 'id' => $model->id], ['class' => 'title']) ?>
+            <?= Html::a($model->orgType['name'] . " " . $model->name, ['/show-organization-info/', 'id' => $model->id], ['class' => 'title']) ?>
 
             <div class="description">
                 <?= $model->description; ?>
             </div>
-            <p class="contact-info"><span>Адрес:</span> <?= $model->address ?></p>
             <?php
             $groups = $model->contactInfo;
             foreach ($groups as $group) {
-                if ($group->group->id != 3 && $group->group->id != 5) {
+                if ($group->id != 3 && $group->id != 5) {
                     ?>
-                    <p class="contact-info"><span><?= $group->group->name ?>:</span> <?= $group->value ?></p>
+                    <p class="contact-info"><span><?= $group->group['name'] ?>:</span> <?= $group->value ?></p>
                 <?php
                 }
             }
@@ -37,13 +36,13 @@ use yii\helpers\Url;
                     <?php
                     $groups = $model->contactInfo;
                     foreach ($groups as $group) {
-                        if ($group->group->id == 3) {
+                        if ($group->id == 3) {
                             ?>
                             <a href="mailto:<?= $group->value ?>" class="glyphicon glyphicon-envelope"
                                title="Написать письмо"></a>
                         <?php
                         }
-                        if ($group->group->id == 5) {
+                        if ($group->id == 5) {
                             ?>
                             <a href="<?= $group->value ?>" target="_blank" class="glyphicon glyphicon-globe"
                                title="Перейти на сайт"></a>

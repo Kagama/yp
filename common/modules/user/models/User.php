@@ -4,10 +4,12 @@ namespace common\modules\user\models;
 
 //use common\modules\order\models\Order;
 use Yii;
+use \yii\base\ErrorException;
 use yii\base\NotSupportedException;
 use yii\db\ActiveRecord;
 use yii\base\Security;
 use yii\web\IdentityInterface;
+use yii\filters\AccessControl;
 
 /**
  * This is the model class for table "t_kg_user".
@@ -100,6 +102,25 @@ class User extends ActiveRecord implements IdentityInterface
                     ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
                 ],
             ],
+            'access' => array(
+                'class' => AccessControl::className(),
+                'only' => array('login'),
+                'rules' => array(
+                    array(
+                        'allow' => true,
+//						'roles' => array('?'),
+                    ),
+                    array(
+                        'allow' => false,
+                        'denyCallback' => array($this, 'goHome'),
+                    ),
+                ),
+            ),
+            'eauth' => array(
+                // required to disable csrf validation on OpenID requests
+                'class' => \nodge\eauth\openid\ControllerBehavior::className(),
+                'only' => array('login'),
+            ),
         ];
     }
 
@@ -163,7 +184,14 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findIdentity($id)
     {
-        return static::findOne($id);
+        if (Yii::$app->getSession()->has('user-'.$id)) {
+            return new self(Yii::$app->getSession()->get('user-'.$id));
+        }
+        else {
+            return static::findOne($id);
+//            return isset(self::$users[$id]) ? new self(self::$users[$id]) : null;
+        }
+//
     }
 
     /**
@@ -330,5 +358,28 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $this->checked = true;
         $this->save();
+    }
+
+
+    /**
+     * @param \nodge\eauth\ServiceBase $service
+     * @return User
+     * @throws ErrorException
+     */
+    public static function findByEAuth($service) {
+        if (!$service->getIsAuthenticated()) {
+            throw new ErrorException('EAuth user should be authenticated before creating identity.');
+        }
+
+        $id = $service->getServiceName().'-'.$service->getId();
+        $attributes = array(
+            'id' => $id,
+            'username' => $service->getAttribute('name'),
+            'email' => $service->getAttribute('email'),
+        );
+        echo 'helllo';
+//        $attributes['phone']['service'] = $service->getServiceName();
+        Yii::$app->getSession()->set('user-'.$id, $attributes);
+        return new self($attributes);
     }
 }

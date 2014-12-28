@@ -21,10 +21,9 @@ $this->params['breadcrumbs'][] = $this->title;
         <p>Заполните следующие поля: </p>
 
     <?php $form = ActiveForm::begin(array('options' => array('class' => 'form-horizontal', 'id' => 'registration-form'))); ?>
-    <div class="row">
-        <div class="col-lg-1">+7</div>
-        <div class="col-lg-11"><?php echo $form->field($model, 'phone')->textInput(); ?></div>
-    </div>
+    <?php echo $form->field($model, 'phone')->widget(\yii\widgets\MaskedInput::className(), [
+        'mask' => '+7 (999) 999-99-99'
+    ])->textInput(['placeholder' => '+7 (___) ___-__-__']); ?>
 
     <?php echo $form->field($model, 'password')->passwordInput(); ?>
         <div class="form-actions">

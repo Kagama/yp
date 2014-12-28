@@ -22,44 +22,29 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a('Создать организацию', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Одобрить все организации', ['approve-all'], ['class' => 'btn btn-primary']) ?>
     </p>
-
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            'logo_img',
             'name',
             [
+                'attribute' => 'approve',
+                'value' => function($model) {
+                    return $model->approve == 0 ? 'Не одобрено' : 'Одобрено';
+                },
+                'filter' => [0 => 'Не одобрено', 1=> 'Одобрено']
+            ],
+            [
                 'attribute' => 'org_type',
-                'value' => function($model, $index) {
-                        return $model->orgType->name;
+                'value' => function($model) {
+                        return $model->orgType['name'];
                     },
                 'filter' => \yii\helpers\ArrayHelper::map(\common\modules\organization\models\OrgType::find()->all(), 'id', 'name')
             ],
             'registration_date:date',
-
-
-            // 'description:ntext',
-            // 'locality',
-            // 'address',
-            // 'registration_date',
-            // 'update_date',
-            // 'category',
-            // 'user',
-            // 'tags',
-            // 'longitude',
-            // 'latitude',
-            // 'seo_title',
-            // 'seo_keywords',
-            // 'seo_description:ntext',
-            // 'locality_id',
-            // 'approve',
-            // 'top_manager',
-
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>

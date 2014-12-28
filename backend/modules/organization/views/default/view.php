@@ -17,7 +17,6 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="organization-view padding020 widget">
 
     <h1><?= Html::encode($this->title) ?></h1>
-
     <p>
         <?= Html::a('Список', ['index'], ['class' => 'btn btn-default']) ?>
         <?= Html::a('Создать организацию', ['create'], ['class' => 'btn btn-success']) ?>
@@ -37,22 +36,37 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'simple_name',
             'name',
-            'org_type',
-            'logo_img',
+            [
+                'label' => 'Статус одобрения',
+                'value' => $model->approve == 1 ? 'Одобрено' : 'Не одобрено',
+            ],
+            [
+                'label' => 'Тип организации',
+                'value' => $model->orgType['name'],
+            ],
+
+            [
+                'label' => 'Логотип организации',
+                'value' => $model->logo_img ? '<img src="'.$model->logo_img.'" >': '-' ,
+            ],
+
             'description:ntext',
-            'locality',
-            'address',
+            [
+                'label' => 'Контакты',
+                'value' => $contacts,
+                'format' => 'html'
+            ],
             'registration_date',
             'update_date',
-            'category',
+            [
+                'label' => 'Категория организации',
+                'value' => $model->cat['name'],
+            ],
             'user',
             'tags',
-            'longitude',
-            'latitude',
             'seo_title',
             'seo_keywords',
             'seo_description:ntext',
-            'locality_id',
             'approve',
             'top_manager',
         ],

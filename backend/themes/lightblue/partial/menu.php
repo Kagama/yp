@@ -9,18 +9,6 @@ $route = Yii::$app->controller->getUniqueId();
         <li class="<?= ($route == 'admin/default') ? "active": "panel"; ?>">
             <a href="<?= Url::toRoute('/admin/default/index'); ?>"><i class="fa fa-home"></i> <span class="name">Приборная панель</span></a>
         </li>
-<!--        <li class="panel">-->
-<!--            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#side-nav" href="#">-->
-<!--                <i class="fa fa-edit"></i> <span class="name">Управление<br/>меню </span>-->
-<!--            </a>-->
-<!--                        <ul id="forms-collapse" class="panel-collapse collapse">-->
-<!--                            <li><a href="form_account.html">Account</a></li>-->
-<!--                            <li><a href="form_article.html">Article</a></li>-->
-<!--                            <li><a href="form_elements.html">Elements</a></li>-->
-<!--                            <li><a href="form_validation.html">Validation</a></li>-->
-<!--                            <li><a href="form_wizard.html">Wizard</a></li>-->
-<!--                        </ul>-->
-<!--        </li>-->
         <li class="<?= ($route == 'organization/default') ? "active": "panel"; ?>">
             <a class="accordion-toggle collapsed" data-toggle="collapse"
                data-parent="#side-nav" href="#organization-collapse"><i class="fa fa-list-alt"></i> <span
@@ -34,21 +22,9 @@ $route = Yii::$app->controller->getUniqueId();
             <a class="accordion-toggle collapsed"
                href="<?= Url::toRoute('/pages/default/index') ?>"><i class="fa fa-edit"></i> <span
                     class="name">Страницы</span></a>
-<!--            <ul id="stats-collapse" class="panel-collapse collapse">-->
-<!--                <li><a href="stat_statistics.html">Stats</a></li>-->
-<!--                <li><a href="stat_charts.html">Charts</a></li>-->
-<!--                <li><a href="stat_realtime.html">Realtime</a></li>-->
-<!--            </ul>-->
         </li>
         <li class="<?= ($route == 'news/default') ? "active": "panel"; ?>">
             <a class="accordion-toggle collapsed" href="<?= Url::toRoute('/news/default/index') ?>"><i class="fa fa-bars"></i> <span class="name">Новости</span></a>
-<!--            <ul id="ui-collapse" class="panel-collapse collapse">-->
-<!--                <li><a href="ui_buttons.html">Buttons</a></li>-->
-<!--                <li><a href="ui_dialogs.html">Dialogs</a></li>-->
-<!--                <li><a href="ui_icons.html">Icons</a></li>-->
-<!--                <li><a href="ui_tabs.html">Tabs</a></li>-->
-<!--                <li><a href="ui_accordion.html">Accordion</a></li>-->
-<!--            </ul>-->
         </li>
 
 
@@ -64,49 +40,8 @@ $route = Yii::$app->controller->getUniqueId();
                 <li><a href="<?= Url::toRoute('/user/default/index') ?>"><i class="fa fa-user"></i> <span class="name" >Пользователи</span></a></li>
                 <li><a href="<?= Url::toRoute('/user/role/index') ?>"><i class="fa fa-user"></i> <span class="name" >Роль</span></a></li>
                 <li><a href="<?= Url::toRoute('/mailing/default/index') ?>"><i class="fa fa-comment"></i> <span class="name" >Управление рассылкой</span></a></li>
-
-<!--                <li><a href="special_invoice.html">Invoice</a></li>-->
-<!--                <li><a href="special_inbox.html">Inbox <span class="label label-important">3</span></a></li>-->
-<!--                <li><a href="login.html">Login</a></li>-->
-<!--                <li><a href="special_404.html">404</a></li>-->
-<!--                <li><a href="landing.html" data-no-pjax>Landing</a></li>-->
-<!--                <li><a href="white/index.html" data-no-pjax>White <i class="fa fa-external-link-square"></i></a></li>-->
             </ul>
         </li>
-<!--        <li class="panel">-->
-<!--            <a class="accordion-toggle collapsed" data-toggle="collapse"-->
-<!--               data-parent="#side-nav" href="index.html#menu-levels-collapse"><i class="fa fa-code-fork"></i> <span-->
-<!--                    class="name">Menu Levels</span></a>-->
-<!--            <ul id="menu-levels-collapse" class="panel-collapse collapse">-->
-<!--                <li><a href="index.html#">Item 1.1</a></li>-->
-<!--                <li><a href="index.html#">Item 1.2</a></li>-->
-<!--                <li class="panel">-->
-<!--                    <a class="accordion-toggle collapsed" data-toggle="collapse"-->
-<!--                       data-parent="#menu-levels-collapse" href="index.html#sub-menu-1-collapse">Item 1.3</a>-->
-<!--                    <ul id="sub-menu-1-collapse" class="panel-collapse collapse">-->
-<!--                        <li class="panel">-->
-<!--                            <a class="accordion-toggle collapsed" data-toggle="collapse"-->
-<!--                               data-parent="#sub-menu-1-collapse" href="index.html#sub-menu-3-collapse">Item 2.1</a>-->
-<!--                            <ul id="sub-menu-3-collapse" class="panel-collapse collapse">-->
-<!--                                <li><a href="index.html#">Item 3.1</a></li>-->
-<!--                                <li><a href="index.html#">Item 3.2</a></li>-->
-<!--                                <li><a href="index.html#">Item 3.3</a></li>-->
-<!--                            </ul>-->
-<!--                        </li>-->
-<!--                        <li><a href="index.html#">Item 2.2</a></li>-->
-<!--                        <li class="panel">-->
-<!--                            <a class="accordion-toggle collapsed" data-toggle="collapse"-->
-<!--                               data-parent="#sub-menu-1-collapse" href="index.html#sub-menu-2-collapse">Item 2.3</a>-->
-<!--                            <ul id="sub-menu-2-collapse" class="panel-collapse collapse">-->
-<!--                                <li><a href="index.html#">Item 3.4</a></li>-->
-<!--                                <li><a href="index.html#">Item 3.5</a></li>-->
-<!--                                <li><a href="index.html#">Item 3.6</a></li>-->
-<!--                            </ul>-->
-<!--                        </li>-->
-<!--                    </ul>-->
-<!--                </li>-->
-<!--            </ul>-->
-<!--        </li>-->
         <li class="visible-xs">
             <a href="<?= Url::toRoute('/admin/default/logout') ?>"><i class="fa fa-sign-out"></i> <span class="name">Выход</span></a>
         </li>

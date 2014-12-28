@@ -52,12 +52,13 @@ Yii::$app->view->registerJs("
         }
     });
 ", View::POS_READY, 'load-comments');
+
 ?>
 
 <?php date_default_timezone_set('etc/GMT-3')?>
 
 <div id="comments">
-    <?php;
+    <?php
     if (count($comments) == 0) {
             echo "Нет отзывов";
     }

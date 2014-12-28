@@ -30,21 +30,11 @@ return [
         ]
     ],
     'components' => [
-        'authClientCollection' => [
-            'class' => 'yii\authclient\Collection',
-            'clients' => [
-                'facebook' => [
-                    'class' => 'yii\authclients\Facebook',
-                    'clientId' => '651530411629071',
-                    'clientSecret' => 'c54ca75c92e9a1f78ab7f6367aa03c67',
-                ],
-            ],
-        ],
-
         'session' => [
             'class' => 'yii\web\DbSession',
             'sessionTable' => 'frontend_session'
         ],
+
         'user' => [
             'identityClass' => 'common\modules\user\models\User',
             'enableAutoLogin' => true,
@@ -86,6 +76,7 @@ return [
                 'add-bookmark' => 'organization/default/add-bookmark',
                 'remove-from-bookmarks' => 'organization/default/remove-from-bookmarks',
 
+
                 '<module:\w+>/<controller:\w+>/<action:\w+>/<id:\d+>'=>'<module>/<controller>/<action>',
                 '<module:\w+>/<controller:\w+>/<action:\w+>'=>'<module>/<controller>/<action>',
                 '<module:\w+>/<action:\w+>'=>'<module>/default/<action>',
@@ -98,8 +89,7 @@ return [
                 'register' => 'user/default/register',
                 'logout' => 'user/default/logout',
                 'send-message' => 'user/default/send-message',
-
-                'login/<service:google|facebook>' => 'organization/login',
+                'login/<service:google|facebook|vkontakte>' => 'user/default/login',
 //                'gii'=>'gii/default/index',
 //                'gii/<controller:\w+>/<action:\w+>'=>'gii/<controller>/<action>',
             ]

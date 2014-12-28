@@ -2,6 +2,7 @@
 
 namespace backend\modules\organization\controllers;
 
+use common\modules\organization\models\ElasticKeyValue;
 use Yii;
 use common\modules\organization\models\Organization;
 use common\modules\organization\search\OrganizationSearch;
@@ -10,6 +11,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use backend\modules\admin\models\AdminUsers;
+use yii\web\UploadedFile;
 
 /**
  * DefaultController implements the CRUD actions for Organization model.
@@ -68,8 +70,21 @@ class DefaultController extends Controller
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
+        $contacts = '';
+        foreach($model->address as $id => $contact)
+        {
+            $num = $id + 1;
+            $contacts .= '<fieldset> <h1>'.$num.'.</h1>';
+            $contacts .= '<p> <strong> Название отделения:</strong> '.$contact->point_name.'</p>';
+            $contacts .= '<p> <strong>Адрес:</strong> '.$contact->address.'</p>';
+            $contacts .= '<p> <strong>Номер телефона:</strong> '.$contact->phone.'</p>';
+            $contacts .= '<p> <strong>Факс:</strong> '.$contact->fax.'</p>';
+            $contacts .= '</fieldset>';
+        }
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+            'contacts' => $contacts,
         ]);
     }
 
@@ -102,6 +117,7 @@ class DefaultController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
@@ -137,5 +153,22 @@ class DefaultController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    /**
+     * Approve all organizations
+     * @return mixed
+     */
+    public function actionApproveAll()
+    {
+        $orgs = Organization::find(['approve' != 1])->all();
+        foreach ($orgs as $org) {
+            $elastic = new ElasticKeyValue();
+            $org->approve = 1;
+            $org->updateAttributes(['approve']);
+            $elastic->saveValue($org);
+        }
+
+        return $this->redirect(['index']);
     }
 }

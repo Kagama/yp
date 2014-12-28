@@ -22,18 +22,12 @@ if (Yii::$app->session->hasFlash('user-login')) {
     ?>
     <h1><?php echo Html::encode($this->title); ?></h1>
 
-    <?php
-    if (Yii::$app->getSession()->hasFlash('error')) {
-        echo '<div class="alert alert-danger">' . Yii::$app->getSession()->getFlash('error') . '</div>';
-    }
-    ?>
-
-    <p class="lead">Do you already have an account on one of these sites? Click the logo to log in with it here:</p>
+    <p class="lead">Вы можете использовать ваш аккаунт в социальных сетях:</p>
     <?php echo nodge\eauth\Widget::widget(array('action' => 'default/login')); ?>
     <hr/>
 
 
-    <p>Please fill out the following fields to login:</p>
+    <p>Или заполните следующие поля:</p>
 
     <?php $form = ActiveForm::begin(array('options' => array('class' => 'form-horizontal', 'id' => 'login-form'))); ?>
     <?php echo $form->field($model, 'username')->textInput(); ?>

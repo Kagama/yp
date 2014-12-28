@@ -109,6 +109,7 @@ if (Yii::$app->user->isGuest) {
             'enctype' => 'multipart/form-data'
         ]
     ]); ?>
+    <?php echo Html::img('image13.png') ?>
     <!--    <div class="container">-->
     <div class="row">
         <div class="col-lg-10 col-lg-offset-1">

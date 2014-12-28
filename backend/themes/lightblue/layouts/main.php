@@ -6,62 +6,6 @@ use yii\helpers\Url;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
-
-
-
-/**
- * @var \yii\web\View $this
- * @var string $content
- */
-//echo $this->getAssetManager();
-//AppAsset::register($this);
-
-// jquery and friends
-//$this->registerJsFile('');
-//$this->registerJsFile('/cp/lib/lightblue/jquery-pjax/jquery.pjax.js');
-
-
-// jquery plugins
-//$this->registerJsFile('/cp/lib/lightblue/icheck.js/jquery.icheck.js');
-//$this->registerJsFile('/cp/lib/lightblue/sparkline/jquery.sparkline.js');
-//$this->registerJsFile('/cp/lib/lightblue/jquery-ui-1.10.3.custom.js');
-//$this->registerJsFile('/cp/lib/lightblue/jquery.slimscroll.js');
-
-// d3, nvd3
-//$this->registerJsFile('/cp/lib/lightblue/nvd3/lib/d3.v2.js');
-//$this->registerJsFile('/cp/lib/lightblue/nvd3/nv.d3.custom.js');
-
-// nvd3 models
-//$this->registerJsFile('/cp/lib/lightblue/nvd3/src/models/scatter.js');
-//$this->registerJsFile('/cp/lib/lightblue/nvd3/src/models/axis.js');
-//$this->registerJsFile('/cp/lib/lightblue/nvd3/src/models/legend.js');
-//$this->registerJsFile('/cp/lib/lightblue/nvd3/src/models/multiBar.js');
-//$this->registerJsFile('/cp/lib/lightblue/nvd3/src/models/multiBarChart.js');
-//$this->registerJsFile('/cp/lib/lightblue/nvd3/src/models/line.js');
-//$this->registerJsFile('/cp/lib/lightblue/nvd3/src/models/lineChart.js');
-//$this->registerJsFile('/cp/lib/lightblue/nvd3/stream_layers.js');
-
-// backbone and friends
-//$this->registerJsFile('/cp/lib/lightblue/backbone/underscore-min.js');
-//$this->registerJsFile('/cp/lib/lightblue/backbone/backbone-min.js');
-//$this->registerJsFile('/cp/lib/lightblue/backbone/backbone.localStorage-min.js');
-
-// bootstrap default plugins
-//$this->registerJsFile('/cp/lib/lightblue/bootstrap/transition.js');
-//$this->registerJsFile('/cp/lib/lightblue/bootstrap/collapse.js');
-//$this->registerJsFile('/cp/lib/lightblue/bootstrap/alert.js');
-//$this->registerJsFile('/cp/lib/lightblue/bootstrap/tooltip.js');
-//$this->registerJsFile('/cp/lib/lightblue/bootstrap/popover.js');
-//$this->registerJsFile('/cp/lib/lightblue/bootstrap/button.js');
-//$this->registerJsFile('/cp/lib/lightblue/bootstrap/tab.js');
-//$this->registerJsFile('/cp/lib/lightblue/bootstrap/dropdown.js');
-
-// basic application js
-//$this->registerJsFile('/cp/js/lightblue/app.js');
-//$this->registerJsFile('/cp/js/lightblue/settings.js');
-
-
-//$this->registerCssFile("themes/lightblue/css/site.css");
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE HTML>
@@ -266,9 +210,11 @@ use yii\widgets\Breadcrumbs;
             </div>
         </div>
     </header>
-    <?= Breadcrumbs::widget([
-                'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-            ]) ?>
+    <div class="bread">
+        <?= Breadcrumbs::widget([
+                    'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+                ]) ?>
+    </div>
     <?= $content ?>
     <div class="loader-wrap hiding hide">
         <i class="fa fa-spinner fa-spin"></i>

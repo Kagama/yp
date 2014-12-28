@@ -37,16 +37,9 @@ return [
             'sessionTable' => 'backend_session'
         ],
         'request' => [
+            'cookieValidationKey' => 'MsTEwas232',
             'enableCsrfValidation'=>false,
             'baseUrl' => '/cp' // данный адрес соответсвует с тем адресом который мы задали в .htaccess из общего рута нашего приложения.
-        ],
-        'db' => [
-            'class' => 'yii\db\Connection',
-            'dsn' => 'mysql:host=localhost;dbname=yellow_pages',
-            'username' => 'root',
-            'password' => '',
-            'tablePrefix' => 'ka_',
-            'charset' => 'utf8',
         ],
         'user' => [
             'identityClass' => 'backend\modules\admin\models\AdminUsers',

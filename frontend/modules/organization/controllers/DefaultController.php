@@ -4,12 +4,16 @@ namespace frontend\modules\organization\controllers;
 
 use common\modules\organization\models\AddressAddForm;
 use common\modules\organization\models\Address;
+use common\modules\organization\models\ElasticKeyValue;
 use common\modules\organization\models\KeyValueOrganization;
 use common\modules\organization\models\Organization;
+use common\modules\user\models\User;
 use frontend\modules\organization\widget\BookmarkWidget;
 use Yii;
 use common\modules\organization\models\AddOrgForm;
 use yii\data\ActiveDataProvider;
+use yii\elasticsearch\Query;
+use yii\helpers\VarDumper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
@@ -18,27 +22,6 @@ class DefaultController extends Controller
 {
     public function actionIndex()
     {
-//        $model = Organization::findOne(5);
-//        $key = new KeyValueOrganization();
-//        $key->saveValue($model);
-//
-//        $model = Organization::findOne(6);
-//        $key = new KeyValueOrganization();
-//        $key->saveValue($model);
-//
-//        $model = Organization::findOne(7);
-//        $key = new KeyValueOrganization();
-//        $key->saveValue($model);
-//
-//        $model = Organization::findOne(9);
-//        $key = new KeyValueOrganization();
-//        $key->saveValue($model);
-//
-//        $model = Organization::findOne(10);
-//        $key = new KeyValueOrganization();
-//        $key->saveValue($model);
-
-
         return $this->render('index');
     }
 
@@ -54,7 +37,6 @@ class DefaultController extends Controller
             $validate = true;
 
             if ($model->load(\Yii::$app->request->post())) {
-
 
                 $_post_address = Yii::$app->request->post('AddressAddForm');
 
@@ -84,15 +66,24 @@ class DefaultController extends Controller
     {
         $search_value = Yii::$app->request->get('search_value');
         // $region = Yii::$app->request->get('region');
-
-        $query = KeyValueOrganization::find();
+        $search = ElasticKeyValue::find()->query([
+            "multi_match" => [
+                "query" => $search_value,
+                "fields" => ["name", "category", "description"],
+                "type" => "most_fields",
+                "operator" => "or",
+                "fuzziness" => "auto",
+                "analyzer" => "russian"
+            ]
+        ]);
 
         $dataProvider = new ActiveDataProvider([
-            'query' => $query
+            'query' => $search
         ]);
-        $dataProvider->query->andWhere(['like', 'value', $search_value]);
-        // $dataProvider->query->andWhere(['like', 'value', $region]);
-        $dataProvider->pagination->pageSize = 20;
+
+//        $dataProvider->query->andWhere(['like', 'value', $search_value]);
+//        // $dataProvider->query->andWhere(['like', 'value', $region]);
+//        $dataProvider->pagination->pageSize = 20;
 
         return $this->render('search-result', [
             'dataProvider' => $dataProvider,
